@@ -5,4 +5,6 @@ import com.TeamPhoenix.gpaCalculator.beans.User;
 public interface GpaDao {
 
     User getUserDetails(String username);
+
+    void saveUserDetails(User user);
 }

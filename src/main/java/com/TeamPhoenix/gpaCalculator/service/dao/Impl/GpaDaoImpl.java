@@ -19,10 +19,21 @@ public class GpaDaoImpl extends Common implements GpaDao {
         String query = "SELECT USER_ID, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
 
         ResultSet resultSet = common.getDataFromDb(query);
-        User user = null;
         List<User> userList = new ArrayList<>();
         populateUser(resultSet, userList);
+
         return userList.get(0);
+    }
+
+    @Override
+    public void saveUserDetails(User user) {
+
+        String query = "INSERT INTO USER (NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, USER_STATUS) " +
+                "VALUES ('" + user.getName() + "', '" + user.getIndexNumber() + "', '" + user.getBatch() + "', '" + user.getPassword() +
+                "', '" + user.getUsername() + "', '" + user.getStream() + "', '" + user.getCombination() + "', '" + user.getDegree() +
+                "', '" + user.getStatus() + "')";
+        System.out.println(query);
+        common.saveDataToDb(query);
     }
 
     private void populateUser(ResultSet resultSet, List<User> userList) {
