@@ -15,6 +15,12 @@
             <version>${commons.lang3.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.26</version>
+        </dependency>
     </dependencies>
 
     <properties>
