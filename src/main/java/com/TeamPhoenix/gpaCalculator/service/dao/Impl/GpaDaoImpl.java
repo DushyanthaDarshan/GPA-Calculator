@@ -14,15 +14,36 @@ public class GpaDaoImpl extends Common implements GpaDao {
     Common common = new Common();
 
     @Override
-    public User getUserDetails(String username) {
+    public User getUserDetailsByUsername(String username) {
 
-        String query = "SELECT USER_ID, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
+        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
 
         ResultSet resultSet = common.getDataFromDb(query);
         List<User> userList = new ArrayList<>();
         populateUser(resultSet, userList);
 
-        return userList.get(0);
+        User user = null;
+        if (userList.size() != 0) {
+            user = userList.get(0);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getUserDetailsByIndexNumber(String indexNumber) {
+        String query = "SELECT USER_ID, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='" + indexNumber + "'";
+
+        ResultSet resultSet = common.getDataFromDb(query);
+        List<User> userList = new ArrayList<>();
+        populateUser(resultSet, userList);
+
+        User user = null;
+        if (userList.size() != 0) {
+            user = userList.get(0);
+        }
+
+        return user;
     }
 
     @Override

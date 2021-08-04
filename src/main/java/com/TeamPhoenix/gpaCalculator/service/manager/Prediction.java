@@ -24,7 +24,7 @@ public class Prediction {
 
     private void populateMainMethod() {
         GpaDao gpaDao = new GpaDaoImpl();
-        User user = gpaDao.getUserDetails("dushyantha1208@gmail.com");
+        User user = gpaDao.getUserDetailsByUsername("dushyantha1208@gmail.com");
         System.out.println(user.getName());
     }
 }
