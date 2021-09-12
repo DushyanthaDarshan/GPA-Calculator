@@ -5,11 +5,22 @@ import com.TeamPhoenix.gpaCalculator.service.dao.GpaDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaDaoImpl;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Prediction {
 //    private GpaDao gpaDao;
     private JPanel predictionRootPanel;
-    private JLabel label;
+    private JButton button1;
+
+    public Prediction() {
+        predictionRootPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        });
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Calculator");
@@ -26,5 +37,9 @@ public class Prediction {
         GpaDao gpaDao = new GpaDaoImpl();
         User user = gpaDao.getUserDetailsByUsername("dushyantha1208@gmail.com");
         System.out.println(user.getName());
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
