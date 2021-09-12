@@ -3,7 +3,9 @@ package com.TeamPhoenix.gpaCalculator.beans;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class User extends MetaData{
+import java.io.Serializable;
+
+public class User extends MetaData implements Serializable {
 
     private Long userId;
     private String username;
