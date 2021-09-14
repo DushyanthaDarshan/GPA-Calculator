@@ -78,13 +78,23 @@ public class SignupPage {
         panel_1.setLayout(null);
 
         //left side
-        JLabel leftSideApplicationName = new JLabel("GPA Calculator");
+        JLabel leftSideApplicationName = new JLabel("");
         leftSideApplicationName.setForeground(new Color(255, 255, 255));
         leftSideApplicationName.setBackground(new Color(0, 0, 128));
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/logo.png").getImage().getScaledInstance(400, 500, Image.SCALE_DEFAULT));
+        leftSideApplicationName.setIcon(imageIcon);
         leftSideApplicationName.setFont(new Font("Dialog", Font.BOLD, 22));
         leftSideApplicationName.setHorizontalAlignment(SwingConstants.CENTER);
-        leftSideApplicationName.setBounds(37, 77, 208, 65);
+        leftSideApplicationName.setBounds(20, 77, 400, 600);
         panel_1.add(leftSideApplicationName);
+
+        //name related
+        JLabel signupPageMainName = new JLabel("SIGNUP PAGE");
+        signupPageMainName.setBounds(50, 500, 200, 30);
+        signupPageMainName.setForeground(new Color(255, 255, 255));
+        signupPageMainName.setBackground(new Color(255, 255, 255));
+        signupPageMainName.setFont(new Font("Dialog", Font.BOLD, 25));
+        panel_1.add(signupPageMainName);
 
         //name related
         JLabel nameLabelForRegister = new JLabel("Name : ");

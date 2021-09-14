@@ -2,7 +2,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao;
 
 import java.sql.*;
 
-public class Common {
+public class CommonDb {
 
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";

@@ -1,7 +1,7 @@
 package com.TeamPhoenix.gpaCalculator.service.dao.Impl;
 
 import com.TeamPhoenix.gpaCalculator.beans.User;
-import com.TeamPhoenix.gpaCalculator.service.dao.Common;
+import com.TeamPhoenix.gpaCalculator.service.dao.CommonDb;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaDao;
 
 import java.sql.ResultSet;
@@ -9,16 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GpaDaoImpl extends Common implements GpaDao {
+public class GpaDaoImpl extends CommonDb implements GpaDao {
 
-    Common common = new Common();
+    CommonDb commonDb = new CommonDb();
 
     @Override
     public User getUserDetailsByUsername(String username) {
 
         String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
 
-        ResultSet resultSet = common.getDataFromDb(query);
+        ResultSet resultSet = commonDb.getDataFromDb(query);
         List<User> userList = new ArrayList<>();
         populateUser(resultSet, userList);
 
@@ -34,7 +34,7 @@ public class GpaDaoImpl extends Common implements GpaDao {
     public User getUserDetailsByIndexNumber(String indexNumber) {
         String query = "SELECT USER_ID, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='" + indexNumber + "'";
 
-        ResultSet resultSet = common.getDataFromDb(query);
+        ResultSet resultSet = commonDb.getDataFromDb(query);
         List<User> userList = new ArrayList<>();
         populateUser(resultSet, userList);
 
@@ -54,7 +54,7 @@ public class GpaDaoImpl extends Common implements GpaDao {
                 "', '" + user.getUsername() + "', '" + user.getStream() + "', '" + user.getCombination() + "', '" + user.getDegree() +
                 "', '" + user.getStatus() + "')";
         System.out.println(query);
-        common.saveDataToDb(query);
+        commonDb.saveDataToDb(query);
     }
 
     private void populateUser(ResultSet resultSet, List<User> userList) {
