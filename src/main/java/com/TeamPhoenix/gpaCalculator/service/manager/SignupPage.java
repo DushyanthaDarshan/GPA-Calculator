@@ -1,8 +1,8 @@
 package com.TeamPhoenix.gpaCalculator.service.manager;
 
 import com.TeamPhoenix.gpaCalculator.beans.User;
-import com.TeamPhoenix.gpaCalculator.service.dao.GpaDao;
-import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaDaoImpl;
+import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
+import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class SignupPage {
 
@@ -360,7 +362,7 @@ public class SignupPage {
         userRegisterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GpaDao gpaDao = new GpaDaoImpl();
+                GpaCalDao gpaCalDao = new GpaCalDaoImpl();
 
                 String name = nameTextFieldRegister.getText();
                 String username = usernameTextFieldRegister.getText();
@@ -383,12 +385,13 @@ public class SignupPage {
                 user.setStream(stream);
                 user.setBatch(batch);
                 user.setStatus("ACTIVE");
+                user.setCreatedTs(Timestamp.valueOf(LocalDateTime.now()));
 
                 clearErrorsInErrorFields();
-                boolean status = validateInputs(user, gpaDao, confirmPw, redColor);
+                boolean status = validateInputs(user, gpaCalDao, confirmPw, redColor);
                 if (status) {
-                    gpaDao.saveUserDetails(user);
-                    User savedUser = gpaDao.getUserDetailsByUsername(username);
+                    gpaCalDao.saveUserDetails(user);
+                    User savedUser = gpaCalDao.getUserDetailsByUsername(username);
                     if (savedUser != null) {
                         clearTextFields();
                         JOptionPane.showMessageDialog(frame, "Successfully registered", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -434,7 +437,7 @@ public class SignupPage {
         confirmPasswordTextFieldRegister.setText("");
     }
 
-    private boolean validateInputs(User user, GpaDao gpaDao, String confirmPw, Color redColor) {
+    private boolean validateInputs(User user, GpaCalDao gpaCalDao, String confirmPw, Color redColor) {
         boolean isValidInputs = true;
         if (StringUtils.isBlank(user.getName())) {
             nameRegisterError.setText("Name should not be empty");
@@ -461,7 +464,7 @@ public class SignupPage {
             isValidInputs = false;
         }
         if (StringUtils.isNotBlank(user.getUsername())) {
-            User userFromDb = gpaDao.getUserDetailsByUsername(user.getUsername());
+            User userFromDb = gpaCalDao.getUserDetailsByUsername(user.getUsername());
             if (userFromDb != null) {
                 usernameRegisterError.setText("Provided username is already registered. Please try using another username");
                 usernameRegisterError.setForeground(redColor);
@@ -482,7 +485,7 @@ public class SignupPage {
             isValidInputs = false;
         }
         if (StringUtils.isNotBlank(user.getIndexNumber())) {
-            User userFromDb = gpaDao.getUserDetailsByIndexNumber(user.getIndexNumber());
+            User userFromDb = gpaCalDao.getUserDetailsByIndexNumber(user.getIndexNumber());
             if (userFromDb != null) {
                 indexNumberRegisterError.setText("Provided index number is already registered. Please check");
                 indexNumberRegisterError.setForeground(redColor);
