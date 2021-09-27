@@ -85,7 +85,7 @@ public class SignupPage {
         leftSideApplicationName.setIcon(imageIcon);
         leftSideApplicationName.setFont(new Font("Dialog", Font.BOLD, 22));
         leftSideApplicationName.setHorizontalAlignment(SwingConstants.CENTER);
-        leftSideApplicationName.setBounds(20, 77, 400, 600);
+        leftSideApplicationName.setBounds(20, 47, 300, 600);
         panel_1.add(leftSideApplicationName);
 
         //name related
