@@ -135,6 +135,32 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         return gpa;
     }
 
+    @Override
+    public Subject getCoreSubject(String subjectCode){
+        String query = "SELECT dcs.DEGREE_CATEGORY_ID, dcs.SUBJECT_ID, dc.DEGREE_CATEGORY_NAME, s.SUBJECT_NAME, s.SUBJECT_CREDITS," +
+                "s.SUBJECT_CODE, us.USER_ID"+
+                "FROM phoenix_gpa_calculator.degree_category_subject dcs" +
+                "left join phoenix_gpa_calculator.degree_category dc on (dcs.DEGREE_CATEGORY_ID = DC.DEGREE_CATEGORY_ID)" +
+                "left join phoenix_gpa_calculator.subject s on (dcs.SUBJECT_ID = s.SUBJECT_ID)" +
+                "right join phoenix_gpa_calculator.user_subject us on (dcs.SUBJECT_ID = us.SUBJECT_ID)" +
+                "where DEGREE_CATEGORY_SUBJECT_DESCRIPTION = \"CORE\" and sc.USER_ID = '" + subjectCode + "'";
+
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<Subject> subjectList = new ArrayList<>();
+        populateCoreSubject(resultSet, subjectList);
+
+        Subject subject = null;
+        if (subjectList.isEmpty()) {
+            System.err.println(NO_OBJECT_FOUND);
+        } else if (subjectList.size() == 1) {
+            subject = subjectList.get(0);
+        } else {
+            System.err.println(MULTIPLE_OBJECTS_FOUND);
+        }
+
+        return subject;
+    }
+
     private void populateUser(ResultSet resultSet, List<User> userList) {
         try {
             while (resultSet.next()) {
@@ -217,5 +243,8 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
             user.getSubjectList().add(subject);
             subjectIds.add(subjectId);
         }
+    }
+
+    private void populateCoreSubject(ResultSet resultSet, List<Subject> subjectList) {
     }
 }

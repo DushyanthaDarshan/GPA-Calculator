@@ -1,6 +1,7 @@
 package com.TeamPhoenix.gpaCalculator.service.dao;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
+import com.TeamPhoenix.gpaCalculator.beans.Subject;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 
 import java.util.List;
@@ -55,4 +56,12 @@ public interface GpaCalDao {
      * @return
      */
     Gpa getOverallGpa(Long userId, String gpaType);
+
+    /**
+     * The method to get all core subject by userId
+     *
+     * @param subjectCode
+     * @return
+     */
+    Subject getCoreSubject(String subjectCode);
 }
