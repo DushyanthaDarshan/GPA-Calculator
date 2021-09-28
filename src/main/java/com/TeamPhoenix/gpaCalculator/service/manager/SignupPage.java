@@ -377,11 +377,11 @@ public class SignupPage {
                     if (!Objects.equals(streamSelectRegister.getSelectedItem(), "Physical Science")) {
                         streamRegisterError.setBounds(420, 281, 500, 15);
 
-                        combinationLabelRegister.setBounds(50, 50, 110, 15);
+                        combinationLabelRegister.setBounds(52, 52, 110, 15);
                         combinationLabelRegister.setVisible(false);
-                        combinationSelectRegister.setBounds(50, 50, 400, 19);
+                        combinationSelectRegister.setBounds(52, 52, 400, 19);
                         combinationSelectRegister.setVisible(false);
-                        combinationRegisterError.setBounds(50, 50, 500, 15);
+                        combinationRegisterError.setBounds(52, 52, 500, 15);
                         combinationRegisterError.setVisible(false);
 
                         degreeLabelRegister.setBounds(420, 298, 110, 15);
