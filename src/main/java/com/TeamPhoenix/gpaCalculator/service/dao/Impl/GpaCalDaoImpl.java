@@ -44,6 +44,27 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     }
 
     @Override
+    public User getUserDetailsByUsernameAndPassword(String username, String pw) {
+
+        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "' AND PASSWORD='" + pw + "'";
+
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<User> userList = new ArrayList<>();
+        populateUser(resultSet, userList);
+
+        User user = null;
+        if (userList.isEmpty()) {
+            System.err.println(NO_OBJECT_FOUND);
+        } else if (userList.size() == 1) {
+            user = userList.get(0);
+        } else {
+            System.err.println(MULTIPLE_OBJECTS_FOUND);
+        }
+
+        return user;
+    }
+
+    @Override
     public User getUserDetailsByIndexNumber(String indexNumber) {
         String query = "SELECT USER_ID, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='"
                 + indexNumber + "'";
