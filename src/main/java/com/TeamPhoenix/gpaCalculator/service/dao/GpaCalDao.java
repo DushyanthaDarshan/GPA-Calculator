@@ -111,4 +111,13 @@ public interface GpaCalDao {
      * @param gpa
      */
     void updateGpa(Long userId, String gpaType, Double gpa);
+
+    /**
+     * The method to get user details by user Id
+     *
+     * @param userId
+     * @return
+     */
+    User getUserByUserId(Long userId);
+
 }
