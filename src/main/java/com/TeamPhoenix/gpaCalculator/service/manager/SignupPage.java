@@ -185,11 +185,9 @@ public class SignupPage {
         batchSelectRegister.setBounds(535, 204, 400, 19);
         batchSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         batchSelectRegister.setForeground(new Color(255, 255, 255));
-//        batchTextFieldRegister.setCaretColor(new Color(255, 255, 255));
         batchSelectRegister.setBackground(new Color(1, 47, 142));
         batchSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(batchSelectRegister);
-//        batchTextFieldRegister.setColumns(10);
 
         batchRegisterError = new JLabel("");
         batchRegisterError.setBounds(420, 234, 500, 15);
@@ -213,11 +211,9 @@ public class SignupPage {
         streamSelectRegister.setBounds(535, 251, 400, 19);
         streamSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         streamSelectRegister.setForeground(new Color(255, 255, 255));
-//        streamTextFieldRegister.setCaretColor(new Color(255, 255, 255));
         streamSelectRegister.setBackground(new Color(1, 47, 142));
         streamSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(streamSelectRegister);
-//        streamTextFieldRegister.setColumns(10);
 
         streamRegisterError = new JLabel("");
         streamRegisterError.setBounds(420, 281, 500, 15);
@@ -241,11 +237,9 @@ public class SignupPage {
         combinationSelectRegister.setBounds(535, 298, 400, 19);
         combinationSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         combinationSelectRegister.setForeground(new Color(255, 255, 255));
-//        combinationSelectRegister.setCaretColor(new Color(255, 255, 255));
         combinationSelectRegister.setBackground(new Color(1, 47, 142));
         combinationSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(combinationSelectRegister);
-//        combinationSelectRegister.setColumns(10);
 
         combinationRegisterError = new JLabel("");
         combinationRegisterError.setBounds(420, 328, 500, 15);
@@ -466,7 +460,7 @@ public class SignupPage {
                         JOptionPane.showMessageDialog(frame, "Successfully registered", "Success", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("Successfully registered");
                         frame.dispose();
-                        //TODO - connect home page
+                        new HomePage(user.getUserId());
                     }
                 }
             }
@@ -477,7 +471,8 @@ public class SignupPage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TODO - connect login page
+                frame.dispose();
+                new LoginPage();
             }
         });
     }

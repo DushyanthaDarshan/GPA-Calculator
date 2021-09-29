@@ -302,9 +302,13 @@ public class SemesterGpa {
 		User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 		List<String> subjectCodesList = new ArrayList<>();
 		List<String> alreadySavedSubjectCodesList = new ArrayList<>();
-		for (Subject subject1 : userFromDb.getSubjectList()) {
-			if (subject1.getSubjectCode() != null) {
-				alreadySavedSubjectCodesList.add(subject1.getSubjectCode());
+		if (userFromDb != null) {
+			for (Subject subject1 : userFromDb.getSubjectList()) {
+				if (subject1 != null) {
+					if (subject1.getSubjectCode() != null) {
+						alreadySavedSubjectCodesList.add(subject1.getSubjectCode());
+					}
+				}
 			}
 		}
 		for (Subject subject : subjectListFromDb) {

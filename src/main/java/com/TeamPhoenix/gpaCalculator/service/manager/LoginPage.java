@@ -19,7 +19,6 @@ public class LoginPage{
     private JFrame frame;
     private JTextField usernameTextFieldLogin;
     private JPasswordField passwordTextFieldLogin;
-    private JLabel messageLabel;
 
     /** Login Page Launch**/
 
@@ -153,28 +152,28 @@ public class LoginPage{
             public void actionPerformed(ActionEvent actionEvent) {
 
                 GpaCalDao gpaCalDao = new GpaCalDaoImpl();
-                String userID = usernameTextFieldLogin.getText();
+                String userName = usernameTextFieldLogin.getText();
                 String password = String.valueOf(passwordTextFieldLogin.getPassword());
 
-                User user = gpaCalDao.getUserDetailsByUsernameAndPassword(userID, password);
-                    System.out.println(user);
+                User user = gpaCalDao.getUserDetailsByUsernameAndPassword(userName, password);
                 if (user == null) {
                     JOptionPane.showMessageDialog(frame, "Your Username or Password is incorrect. Please try again.", "Login Failed", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(frame, "You have logged in successfully.", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                     frame.dispose();
-                    //TODO - connect home page
+                    new HomePage(user.getUserId());
                 }
 
             }
         });
 
-        //dpn't have an account
+        //don't have an account
         dontHaveAnAccountPart2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TODO - connect Signup page
+                frame.dispose();
+                new SignupPage();
             }
         });
     }

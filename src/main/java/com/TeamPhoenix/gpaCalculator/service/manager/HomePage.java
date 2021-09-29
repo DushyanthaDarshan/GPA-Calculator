@@ -58,6 +58,7 @@ public class HomePage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+		frame.setVisible(true);
 
 		JLabel leftSideApplicationName = new JLabel("");
 		leftSideApplicationName.setForeground(new Color(255, 255, 255));
@@ -88,7 +89,7 @@ public class HomePage {
 			public void actionPerformed(ActionEvent actionEvent) {
 				//TODO - connect login page
 				frame.dispose();
-//				new PredictionPage(userId);
+				new LoginPage();
 			}
 		});
 		
@@ -217,8 +218,7 @@ public class HomePage {
 		btnAllGpaPage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				//TODO - connect ALL gpa page
-//				new PredictionPage(userId);
+				new PredictionPage(userId);
 			}
 		});
 		
