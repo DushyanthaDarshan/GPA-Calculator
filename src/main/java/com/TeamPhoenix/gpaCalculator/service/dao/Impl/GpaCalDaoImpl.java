@@ -135,6 +135,59 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         return gpa;
     }
 
+    @Override
+    public void updateResult(Long userId, Integer subjectId, String resultGrade) {
+        System.out.println("GpaCalDaoImpl - Entered to update the result");
+        String query = "UPDATE RESULT SET RESULT_GRADE='" + resultGrade + "' WHERE USER_SUBJECT_ID=(SELECT USER_SUBJECT_ID " +
+                "FROM USER_SUBJECT WHERE USER_ID='"  + userId + "' AND SUBJECT_ID='" + subjectId + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public void saveResultPreviouslySelectedSubjects(Long userId, Integer subjectId, Result result) {
+        System.out.println("GpaCalDaoImpl - Entered to save the result for previously selected subjects");
+
+        String query = "INSERT INTO RESULT (USER_SUBJECT_ID, RESULT_GRADE, RESULT_STATUS) " +
+                "VALUES ((SELECT USER_SUBJECT_ID FROM USER_SUBJECT WHERE USER_ID='" + userId + "' AND SUBJECT_ID='" + subjectId + "'), " +
+                " '" + result.getResultGrade() + "', '" + result.getStatus() + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public List<Subject> getAllSubjectsBySemNo(Integer semNumber) {
+        String query = "SELECT SUBJECT_ID, SUBJECT_NAME, SUBJECT_BASE_CATEGORY_ID, SUBJECT_CODE, SUBJECT_TYPE, SUBJECT_CREDITS, " +
+                "SEMESTER_NUMBER, SUBJECT_STATUS, SUBJECT_CREATED_TS FROM SUBJECT WHERE SEMESTER_NUMBER='" + semNumber + "'";
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<Subject> subjectList = new ArrayList<>();
+        populateSubject(resultSet, subjectList);
+        return subjectList;
+    }
+
+    @Override
+    public void saveUserSubject(Long userId, Integer subjectId) {
+        System.out.println("GpaCalDaoImpl - Entered to save the user subject table for previously selected subjects");
+
+        String query = "INSERT INTO USER_SUBJECT (USER_ID, SUBJECT_ID) VALUES ('" + userId + "', '" + subjectId + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public void saveGpa(Long userId, String gpaType, Double gpa) {
+        String query = "INSERT INTO GPA (USER_ID, GPA, GPA_TYPE) VALUES ('" + userId + "', '" + gpa + "', '" + gpaType + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public void updateGpa(Long userId, String gpaType, Double gpa) {
+        String query = "UPDATE GPA SET GPA='" + gpa + "' WHERE USER_ID='"  + userId + "' AND GPA_TYPE='" + gpaType + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
     private void populateUser(ResultSet resultSet, List<User> userList) {
         try {
             while (resultSet.next()) {
@@ -216,6 +269,26 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
             subject.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
             user.getSubjectList().add(subject);
             subjectIds.add(subjectId);
+        }
+    }
+
+    private void populateSubject(ResultSet resultSet, List<Subject> subjectList) {
+        try {
+            while (resultSet.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(resultSet.getInt(DbConstants.SUBJECT_ID));
+                subject.setSubjectCode(resultSet.getString(DbConstants.SUBJECT_CODE));
+                subject.setSubjectName(resultSet.getString(DbConstants.SUBJECT_NAME));
+                subject.setSubjectBaseCategoryId(resultSet.getInt(DbConstants.SUBJECT_BASE_CATEGORY_ID));
+                subject.setSubjectType(resultSet.getString(DbConstants.SUBJECT_TYPE));
+                subject.setSubjectCredits(resultSet.getInt(DbConstants.SUBJECT_CREDITS));
+                subject.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
+                subject.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
+                subject.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
+                subjectList.add(subject);
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
     }
 }
