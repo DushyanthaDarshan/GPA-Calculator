@@ -218,7 +218,7 @@ public class HomePage {
 		btnAllGpaPage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				new PredictionPage(userId);
+				new AllGpaPage(userId);
 			}
 		});
 		
