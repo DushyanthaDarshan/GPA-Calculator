@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="IT3003_Mini_Project" />
         <module name="GpaCalculator" />
       </profile>
     </annotationProcessing>
