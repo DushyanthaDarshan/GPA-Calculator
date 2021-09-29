@@ -128,4 +128,12 @@ public interface GpaCalDao {
      */
     User getUserByUserId(Long userId);
 
+
+    /**
+     * The method to get all core subject by userId
+     *
+     * @param subjectCode
+     * @return
+     */
+    Subject getCoreSubject(String subjectCode);
 }
