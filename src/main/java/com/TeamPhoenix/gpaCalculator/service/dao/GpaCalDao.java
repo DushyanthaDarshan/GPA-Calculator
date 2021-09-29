@@ -1,6 +1,8 @@
 package com.TeamPhoenix.gpaCalculator.service.dao;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
+import com.TeamPhoenix.gpaCalculator.beans.Result;
+import com.TeamPhoenix.gpaCalculator.beans.Subject;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 
 import java.util.List;
@@ -55,4 +57,58 @@ public interface GpaCalDao {
      * @return
      */
     Gpa getOverallGpa(Long userId, String gpaType);
+
+    /**
+     * The method to update result
+     *
+     * @param userId
+     * @param subjectId
+     * @param resultGrade
+     * @return
+     */
+    void updateResult(Long userId, Integer subjectId, String resultGrade);
+
+    /**
+     * The method to save result for previously selected subjects
+     *
+     * @param userId
+     * @param subjectId
+     * @param result
+     * @return
+     */
+    void saveResultPreviouslySelectedSubjects(Long userId, Integer subjectId, Result result);
+
+    /**
+     * The method to get all subjects by sem no
+     *
+     * @param semNumber
+     * @return
+     */
+    List<Subject> getAllSubjectsBySemNo(Integer semNumber);
+
+    /**
+     * The method to save user subject table
+     *
+     * @param userId
+     * @param subjectId
+     */
+    void saveUserSubject(Long userId, Integer subjectId);
+
+    /**
+     * The method to save gpa
+     *
+     * @param userId
+     * @param gpaType
+     * @param gpa
+     */
+    void saveGpa(Long userId, String gpaType, Double gpa);
+
+    /**
+     * The method to update gpa
+     *
+     * @param userId
+     * @param gpaType
+     * @param gpa
+     */
+    void updateGpa(Long userId, String gpaType, Double gpa);
 }
