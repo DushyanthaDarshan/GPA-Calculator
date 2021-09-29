@@ -18,6 +18,14 @@ public interface GpaCalDao {
     User getUserDetailsByUsername(String username);
 
     /**
+     * The method to get user details from database by username
+     *
+     * @param username
+     * @return
+     */
+    User getUserDetailsByUsernameAndPassword(String username, String pw);
+
+    /**
      * The method to get user details from database by index number
      *
      * @param indexNumber
