@@ -20,7 +20,7 @@ public class User extends MetaData implements Serializable {
     private String degree;
 
     private List<Gpa> gpaList;
-    private List<Subject> subjectList;
+    private List<Course> courseList;
 
     public Long getUserId() {
         return userId;
@@ -105,15 +105,15 @@ public class User extends MetaData implements Serializable {
         this.gpaList = gpaList;
     }
 
-    public List<Subject> getSubjectList() {
-        if (subjectList == null) {
-            subjectList = new ArrayList<>();
+    public List<Course> getSubjectList() {
+        if (courseList == null) {
+            courseList = new ArrayList<>();
         }
-        return subjectList;
+        return courseList;
     }
 
-    public void setSubjectList(List<Subject> subjectList) {
-        this.subjectList = subjectList;
+    public void setSubjectList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 
     @Override
@@ -124,12 +124,12 @@ public class User extends MetaData implements Serializable {
 
         User user = (User) o;
 
-        return new EqualsBuilder().appendSuper(super.equals(o)).append(userId, user.userId).append(username, user.username).append(indexNumber, user.indexNumber).append(name, user.name).append(password, user.password).append(batch, user.batch).append(stream, user.stream).append(combination, user.combination).append(degree, user.degree).append(gpaList, user.gpaList).append(subjectList, user.subjectList).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(userId, user.userId).append(username, user.username).append(indexNumber, user.indexNumber).append(name, user.name).append(password, user.password).append(batch, user.batch).append(stream, user.stream).append(combination, user.combination).append(degree, user.degree).append(gpaList, user.gpaList).append(courseList, user.courseList).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(userId).append(username).append(indexNumber).append(name).append(password).append(batch).append(stream).append(combination).append(degree).append(gpaList).append(subjectList).toHashCode();
+        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(userId).append(username).append(indexNumber).append(name).append(password).append(batch).append(stream).append(combination).append(degree).append(gpaList).append(courseList).toHashCode();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class User extends MetaData implements Serializable {
                 ", combination='" + combination + '\'' +
                 ", degree='" + degree + '\'' +
                 ", gpaList=" + gpaList +
-                ", subjectList=" + subjectList +
+                ", subjectList=" + courseList +
                 "} " + super.toString();
     }
 }

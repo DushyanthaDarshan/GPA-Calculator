@@ -2,7 +2,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao.Impl;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Result;
-import com.TeamPhoenix.gpaCalculator.beans.Subject;
+import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 import com.TeamPhoenix.gpaCalculator.service.dao.CommonDb;
 import com.TeamPhoenix.gpaCalculator.service.dao.DbConstants;
@@ -177,13 +177,13 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     }
 
     @Override
-    public List<Subject> getAllSubjectsBySemNo(Integer semNumber) {
+    public List<Course> getAllSubjectsBySemNo(Integer semNumber) {
         String query = "SELECT SUBJECT_ID, SUBJECT_NAME, SUBJECT_BASE_CATEGORY_ID, SUBJECT_CODE, SUBJECT_TYPE, SUBJECT_CREDITS, " +
                 "SEMESTER_NUMBER, SUBJECT_STATUS, SUBJECT_CREATED_TS FROM SUBJECT WHERE SEMESTER_NUMBER='" + semNumber + "'";
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<Subject> subjectList = new ArrayList<>();
-        populateSubject(resultSet, subjectList);
-        return subjectList;
+        List<Course> courseList = new ArrayList<>();
+        populateSubject(resultSet, courseList);
+        return courseList;
     }
 
     @Override
@@ -204,7 +204,7 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
 
     @Override
     public void updateGpa(Long userId, String gpaType, Double gpa) {
-        String query = "UPDATE GPA SET GPA='" + gpa + "' WHERE USER_ID='"  + userId + "' AND GPA_TYPE='" + gpaType + "')";
+        String query = "UPDATE GPA SET GPA='" + gpa + "' WHERE USER_ID='"  + userId + "' AND GPA_TYPE='" + gpaType + "'";
         System.out.println(query);
         commonDb.saveDataToDb(query);
     }
@@ -231,7 +231,7 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
 
 
     @Override
-    public Subject getCoreSubject(String subjectCode){
+    public Course getCoreSubject(String subjectCode){
         String query = "SELECT dcs.DEGREE_CATEGORY_ID, dcs.SUBJECT_ID, dc.DEGREE_CATEGORY_NAME, s.SUBJECT_NAME, s.SUBJECT_CREDITS," +
                 "s.SUBJECT_CODE, us.USER_ID"+
                 "FROM phoenix_gpa_calculator.degree_category_subject dcs" +
@@ -241,19 +241,27 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
                 "where DEGREE_CATEGORY_SUBJECT_DESCRIPTION = \"CORE\" and sc.USER_ID = '" + subjectCode + "'";
 
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<Subject> subjectList = new ArrayList<>();
-        populateCoreSubject(resultSet, subjectList);
+        List<Course> courseList = new ArrayList<>();
+        populateCoreSubject(resultSet, courseList);
 
-        Subject subject = null;
-        if (subjectList.isEmpty()) {
+        Course course = null;
+        if (courseList.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (subjectList.size() == 1) {
-            subject = subjectList.get(0);
+        } else if (courseList.size() == 1) {
+            course = courseList.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return subject;
+        return course;
+    }
+
+    @Override
+    public void deleteUserSubjectEnrollment(Long userId, String subjectCode) {
+        String query = "DELETE FROM USER_SUBJECT WHERE USER_ID='"  + userId + "' AND SUBJECT_ID=(SELECT SUBJECT_ID FROM SUBJECT " +
+                "WHERE SUBJECT_CODE='" + subjectCode + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
     }
 
     private void populateUser(ResultSet resultSet, List<User> userList) {
@@ -324,42 +332,42 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
             result.setStatus(resultSet.getString(DbConstants.RESULT_STATUS));
             result.setCreatedTs(resultSet.getTimestamp(DbConstants.RESULT_CREATED_TS));
 
-            Subject subject = new Subject();
-            subject.setSubjectId(resultSet.getInt(DbConstants.SUBJECT_ID));
-            subject.setResult(result);
-            subject.setSubjectName(resultSet.getString(DbConstants.SUBJECT_NAME));
-            subject.setSubjectBaseCategoryId(resultSet.getInt(DbConstants.SUBJECT_BASE_CATEGORY_ID));
-            subject.setSubjectCode(resultSet.getString(DbConstants.SUBJECT_CODE));
-            subject.setSubjectType(resultSet.getString(DbConstants.SUBJECT_TYPE));
-            subject.setSubjectCredits(resultSet.getInt(DbConstants.SUBJECT_CREDITS));
-            subject.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
-            subject.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
-            subject.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
-            user.getSubjectList().add(subject);
+            Course course = new Course();
+            course.setCourseId(resultSet.getInt(DbConstants.SUBJECT_ID));
+            course.setResult(result);
+            course.setCourseName(resultSet.getString(DbConstants.SUBJECT_NAME));
+            course.setSubjectBaseCategoryId(resultSet.getInt(DbConstants.SUBJECT_BASE_CATEGORY_ID));
+            course.setCourseCode(resultSet.getString(DbConstants.SUBJECT_CODE));
+            course.setCourseType(resultSet.getString(DbConstants.SUBJECT_TYPE));
+            course.setCourseCredits(resultSet.getInt(DbConstants.SUBJECT_CREDITS));
+            course.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
+            course.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
+            course.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
+            user.getSubjectList().add(course);
             subjectIds.add(subjectId);
         }
     }
 
-    private void populateSubject(ResultSet resultSet, List<Subject> subjectList) {
+    private void populateSubject(ResultSet resultSet, List<Course> courseList) {
         try {
             while (resultSet.next()) {
-                Subject subject = new Subject();
-                subject.setSubjectId(resultSet.getInt(DbConstants.SUBJECT_ID));
-                subject.setSubjectCode(resultSet.getString(DbConstants.SUBJECT_CODE));
-                subject.setSubjectName(resultSet.getString(DbConstants.SUBJECT_NAME));
-                subject.setSubjectBaseCategoryId(resultSet.getInt(DbConstants.SUBJECT_BASE_CATEGORY_ID));
-                subject.setSubjectType(resultSet.getString(DbConstants.SUBJECT_TYPE));
-                subject.setSubjectCredits(resultSet.getInt(DbConstants.SUBJECT_CREDITS));
-                subject.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
-                subject.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
-                subject.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
-                subjectList.add(subject);
+                Course course = new Course();
+                course.setCourseId(resultSet.getInt(DbConstants.SUBJECT_ID));
+                course.setCourseCode(resultSet.getString(DbConstants.SUBJECT_CODE));
+                course.setCourseName(resultSet.getString(DbConstants.SUBJECT_NAME));
+                course.setSubjectBaseCategoryId(resultSet.getInt(DbConstants.SUBJECT_BASE_CATEGORY_ID));
+                course.setCourseType(resultSet.getString(DbConstants.SUBJECT_TYPE));
+                course.setCourseCredits(resultSet.getInt(DbConstants.SUBJECT_CREDITS));
+                course.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
+                course.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
+                course.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
+                courseList.add(course);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
     }
 
-    private void populateCoreSubject(ResultSet resultSet, List<Subject> subjectList) {
+    private void populateCoreSubject(ResultSet resultSet, List<Course> courseList) {
     }
 }

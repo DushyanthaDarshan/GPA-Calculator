@@ -2,12 +2,11 @@ package com.TeamPhoenix.gpaCalculator.service.manager;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.PredictReportResult;
-import com.TeamPhoenix.gpaCalculator.beans.Subject;
+import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 import com.google.gson.Gson;
-import org.apache.commons.collections4.CollectionUtils;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -158,23 +157,23 @@ public class PredictionPage {
                 for (int i = 0; sizeOfList > i; i++) {
                     User userWithSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(i + 1, userId);
                     if (userWithSemSubjects != null) {
-                        for (Subject subject : userWithSemSubjects.getSubjectList()) {
+                        for (Course course : userWithSemSubjects.getSubjectList()) {
                             PredictReportResult predictReportResult = new PredictReportResult();
-                            predictReportResult.setSubjectName(subject.getSubjectName());
-                            predictReportResult.setSubjectCode(subject.getSubjectCode());
-                            predictReportResult.setSubjectCredit(subject.getSubjectCredits());
-                            predictReportResult.setResultGrade(subject.getResult().getResultGrade());
-                            predictReportResult.setGpv(gradeWithGpvMap.get(subject.getResult().getResultGrade()));
+                            predictReportResult.setSubjectName(course.getCourseName());
+                            predictReportResult.setSubjectCode(course.getCourseCode());
+                            predictReportResult.setSubjectCredit(course.getCourseCredits());
+                            predictReportResult.setResultGrade(course.getResult().getResultGrade());
+                            predictReportResult.setGpv(gradeWithGpvMap.get(course.getResult().getResultGrade()));
                             predictReportResult.setNewSem(false);
                             oldSemResults.add(predictReportResult);
                         }
                     }
                 }
-                for (Subject subject : userWithNextSemSubjects.getSubjectList()) {
+                for (Course course : userWithNextSemSubjects.getSubjectList()) {
                     PredictReportResult predictReportResult = new PredictReportResult();
-                    predictReportResult.setSubjectName(subject.getSubjectName());
-                    predictReportResult.setSubjectCode(subject.getSubjectCode());
-                    predictReportResult.setSubjectCredit(subject.getSubjectCredits());
+                    predictReportResult.setSubjectName(course.getCourseName());
+                    predictReportResult.setSubjectCode(course.getCourseCode());
+                    predictReportResult.setSubjectCredit(course.getCourseCredits());
                     predictReportResult.setResultGrade("C");
                     predictReportResult.setGpv(gradeWithGpvMap.get("C"));
                     predictReportResult.setNewSem(true);

@@ -2,7 +2,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Result;
-import com.TeamPhoenix.gpaCalculator.beans.Subject;
+import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public interface GpaCalDao {
      * @param semNumber
      * @return
      */
-    List<Subject> getAllSubjectsBySemNo(Integer semNumber);
+    List<Course> getAllSubjectsBySemNo(Integer semNumber);
 
     /**
      * The method to save user subject table
@@ -128,12 +128,19 @@ public interface GpaCalDao {
      */
     User getUserByUserId(Long userId);
 
-
     /**
      * The method to get all core subject by userId
      *
      * @param subjectCode
      * @return
      */
-    Subject getCoreSubject(String subjectCode);
+    Course getCoreSubject(String subjectCode);
+
+    /**
+     * The method to delete user subject enrollment
+     *
+     * @param userId
+     * @param subjectCode
+     */
+    void deleteUserSubjectEnrollment(Long userId, String subjectCode);
 }
