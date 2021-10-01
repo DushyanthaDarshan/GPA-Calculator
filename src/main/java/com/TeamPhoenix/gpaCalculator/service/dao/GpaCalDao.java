@@ -111,4 +111,13 @@ public interface GpaCalDao {
      * @param gpa
      */
     void updateGpa(Long userId, String gpaType, Double gpa);
+
+    /**
+     * The method to delete result
+     *
+     * @param userId
+     * @param subjectCode
+     */
+    void deleteResult(Long userId, String subjectCode);
+
 }
