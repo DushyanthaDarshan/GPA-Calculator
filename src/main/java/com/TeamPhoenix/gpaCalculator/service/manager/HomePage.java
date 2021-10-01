@@ -206,7 +206,7 @@ public class HomePage {
 		btnprediction.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				new PredictionPage(userId);
+				new AddSubjectsForNextSem(userId);
 			}
 		});
 

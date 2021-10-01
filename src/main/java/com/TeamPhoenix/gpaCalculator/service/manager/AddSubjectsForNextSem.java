@@ -6,7 +6,6 @@ import com.TeamPhoenix.gpaCalculator.beans.User;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 
-import javax.security.auth.Subject;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -152,6 +151,17 @@ public class AddSubjectsForNextSem {
             }
         });
         frame.getContentPane().add(btnDelete);
+
+        JButton btnNextPage = new JButton("To Prediction Page");
+        btnNextPage.setBounds(400, 600, 180, 25);
+        btnNextPage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                frame.dispose();
+                new PredictionPage(userId);
+            }
+        });
+        frame.getContentPane().add(btnNextPage);
 
         JLabel rightSideBackground = new JLabel("");
         rightSideBackground.setIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/right_side_signup_page.jpg"));
