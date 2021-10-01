@@ -264,6 +264,14 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         commonDb.saveDataToDb(query);
     }
 
+    @Override
+    public void deleteResult(Long userId, String subjectCode) {
+        String query = "DELETE FROM RESULT WHERE USER_SUBJECT_ID=(SELECT USER_SUBJECT_ID FROM USER_SUBJECT WHERE " +
+                "USER_ID='"  + userId + "'AND SUBJECT_ID=(SELECT SUBJECT_ID FROM SUBJECT WHERE SUBJECT_CODE='" + subjectCode + "'))";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
     private void populateUser(ResultSet resultSet, List<User> userList) {
         try {
             while (resultSet.next()) {

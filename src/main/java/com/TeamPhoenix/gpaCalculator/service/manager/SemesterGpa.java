@@ -25,8 +25,8 @@ public class SemesterGpa {
 	private DefaultTableModel model;
 	private Long userId;
 	private int semNumber;
-	private User allSubjectsWithResultsBySemNumberAndUserIdFromDb;
-	private List<Subject> subjectListFromDb;
+	private User allCoursesWithResultsBySemNumberAndUserIdFromDb;
+	private List<Course> courseListFromDb;
 	private JComboBox comboBox_1;
 	private Map<String, Double> gradeWithGpvMap = new HashMap<>();
 
@@ -67,14 +67,14 @@ public class SemesterGpa {
 		frame.setVisible(true);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
-		
+
 		JLabel semesterNumberLabel = new JLabel("Semester " + semNumber);
 		semesterNumberLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		semesterNumberLabel.setBounds(359, 13, 300, 40);
 		semesterNumberLabel.setForeground(new Color(255, 255, 255));
 		semesterNumberLabel.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(semesterNumberLabel);
-		
+
 		JLabel semesterOverallGpa = new JLabel("");
 		semesterOverallGpa.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		semesterOverallGpa.setBounds(104, 68, 300, 23);
@@ -86,28 +86,33 @@ public class SemesterGpa {
 		if (overallSemGpa != null) {
 			semesterOverallGpa.setText("Semester " + semNumber + " Gpa = " + overallSemGpa.getGpa());
 		}
-		
+
 		JLabel courseUnit = new JLabel("Course unit");
 		courseUnit.setBounds(54, 120, 83, 16);
 		courseUnit.setForeground(new Color(255, 255, 255));
 		courseUnit.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(courseUnit);
-		
+
 		JLabel gradeLabel = new JLabel("Grade");
 		gradeLabel.setBounds(209, 120, 56, 16);
 		gradeLabel.setForeground(new Color(255, 255, 255));
 		gradeLabel.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(gradeLabel);
 
-		comboBox_1 = new JComboBox(populateAllSubjectsForSem().toArray());
+		model = new DefaultTableModel();
+		model.addColumn("Course Unit");
+		model.addColumn("Course Name");
+		model.addColumn("Result");
+
+		comboBox_1 = new JComboBox(populateAllCoursesForSem().toArray());
 		comboBox_1.setBounds(54, 149, 100, 22);
 		frame.getContentPane().add(comboBox_1);
-		
+
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Select", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"}));
 		comboBox_2.setBounds(209, 149, 86, 22);
 		frame.getContentPane().add(comboBox_2);
-		
+
 		JButton addButton = new JButton("ADD");
 		addButton.setBounds(482, 148, 97, 25);
 		addButton.addActionListener(new ActionListener() {
@@ -115,28 +120,34 @@ public class SemesterGpa {
 			public void actionPerformed(ActionEvent actionEvent) {
 				User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 				List<String> alreadySavedSubjectCodesList = new ArrayList<>();
-				for (Subject subject1 : userFromDb.getSubjectList()) {
-					if (subject1.getSubjectCode() != null) {
-						alreadySavedSubjectCodesList.add(subject1.getSubjectCode());
+				for (Course course1 : userFromDb.getSubjectList()) {
+					if (course1.getCourseCode() != null) {
+						alreadySavedSubjectCodesList.add(course1.getCourseCode());
 					}
 				}
-				for (Subject subject : subjectListFromDb) {
-					if (subject.getSubjectCode().equals(comboBox_1.getSelectedItem())) {
+				for (Course course : courseListFromDb) {
+					if (course.getCourseCode().equals(comboBox_1.getSelectedItem())) {
 						if (!comboBox_2.getSelectedItem().equals("Select")) {
 							if (!alreadySavedSubjectCodesList.contains((String) comboBox_1.getSelectedItem())) {
-								gpaCalDao.saveUserSubject(userId, subject.getSubjectId());
+								gpaCalDao.saveUserSubject(userId, course.getCourseId());
 								Result result = new Result();
 								result.setResultGrade((String) comboBox_2.getSelectedItem());
 								result.setStatus("ACTIVE");
-								gpaCalDao.saveResultPreviouslySelectedSubjects(userId, subject.getSubjectId(), result);
+								gpaCalDao.saveResultPreviouslySelectedSubjects(userId, course.getCourseId(), result);
 
-								model.addRow(new Object[]{subject.getSubjectCode(), subject.getSubjectName(), (String) comboBox_2.getSelectedItem()});
-								populateAllSubjectsForSem();
+								model.addRow(new Object[]{course.getCourseCode(), course.getCourseName(), (String) comboBox_2.getSelectedItem()});
+								while (model.getRowCount() != 0) {
+									model.removeRow(0);
+								}
 							} else {
 								JOptionPane.showMessageDialog(frame, "Already saved", "Warning", JOptionPane.WARNING_MESSAGE);
 							}
 						}
 					}
+				}
+				comboBox_1.removeAllItems();
+				for (String courseCode : populateAllCoursesForSem()) {
+					comboBox_1.addItem(courseCode);
 				}
 			}
 		});
@@ -156,26 +167,29 @@ public class SemesterGpa {
 				gradeWithGpvMap.put("B-", 2.7);
 				gradeWithGpvMap.put("C+", 2.4);
 				gradeWithGpvMap.put("C", 2.1);
+				gradeWithGpvMap.put("D+", 1.8);
+				gradeWithGpvMap.put("D", 1.5);
+				gradeWithGpvMap.put("D-", 1.2);
 
 				User user = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 				if (user != null) {
 					List<PredictReportResult> semResult = new ArrayList<>();
-					for (Subject subject : user.getSubjectList()) {
-						if (subject != null) {
+					for (Course course : user.getSubjectList()) {
+						if (course != null) {
 							PredictReportResult predictReportResult = new PredictReportResult();
-							predictReportResult.setSubjectName(subject.getSubjectName());
-							predictReportResult.setSubjectCode(subject.getSubjectCode());
-							predictReportResult.setSubjectCredit(subject.getSubjectCredits());
-							predictReportResult.setGpv(gradeWithGpvMap.get(subject.getResult().getResultGrade()));
-							predictReportResult.setResultGrade(subject.getResult().getResultGrade());
+							predictReportResult.setSubjectName(course.getCourseName());
+							predictReportResult.setSubjectCode(course.getCourseCode());
+							predictReportResult.setSubjectCredit(course.getCourseCredits());
+							predictReportResult.setGpv(gradeWithGpvMap.get(course.getResult().getResultGrade()));
+							predictReportResult.setResultGrade(course.getResult().getResultGrade());
 
 							semResult.add(predictReportResult);
 						}
 					}
-					Double semGpa = calculateGpa(semResult);
+					Double semGpa = Math.round(calculateGpa(semResult) * 100.0) / 100.0;
 					if (overallSemGpa != null) {
 						if (!Objects.equals(overallSemGpa.getGpa(), semGpa)) {
-
+							gpaCalDao.updateGpa(userId, "sem" + semNumber, semGpa);
 						}
 					} else {
 						gpaCalDao.saveGpa(userId, "sem" + semNumber, semGpa);
@@ -186,18 +200,27 @@ public class SemesterGpa {
 		});
 		frame.getContentPane().add(btnCalculate);
 
-		JButton btnDelet = new JButton("DELETE");
-		btnDelet.setBounds(763, 148, 97, 25);
-		frame.getContentPane().add(btnDelet);
+		JButton btnDelete = new JButton("DELETE");
+		btnDelete.setBounds(763, 148, 97, 25);
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				int row = table.getSelectedRow();
+				String courseCode = (String) table.getValueAt(row, 0);
+				gpaCalDao.deleteResult(userId, courseCode);
+				gpaCalDao.deleteUserSubjectEnrollment(userId, courseCode);
+				model.removeRow(row);
+				comboBox_1.removeAllItems();
+				for (String courseCode1 : populateAllCoursesForSem()) {
+					comboBox_1.addItem(courseCode1);
+				}
+			}
+		});
+		frame.getContentPane().add(btnDelete);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Courses with Results", TitledBorder.CENTER, TitledBorder.TOP));
 		panel.setBounds(50, 200, 900, 500);
-
-		model = new DefaultTableModel();
-		model.addColumn("Course Unit");
-		model.addColumn("Course Name");
-		model.addColumn("Result");
 
 		populateAlreadyAddedSem();
 
@@ -231,15 +254,15 @@ public class SemesterGpa {
 					if (newGrade != null) {
 						User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 						if (userFromDb != null) {
-							for (Subject subject : userFromDb.getSubjectList()) {
-								if (subject.getSubjectCode().equals((String) table.getValueAt(row, 0))) {
+							for (Course course : userFromDb.getSubjectList()) {
+								if (course.getCourseCode().equals((String) table.getValueAt(row, 0))) {
 									if (!oldGrade.equals("NOT ADD")) {
-										gpaCalDao.updateResult(userId, subject.getSubjectId(), newGrade);
+										gpaCalDao.updateResult(userId, course.getCourseId(), newGrade);
 									} else {
 										Result result = new Result();
 										result.setResultGrade(newGrade);
 										result.setStatus("ACTIVE");
-										gpaCalDao.saveResultPreviouslySelectedSubjects(userId, subject.getSubjectId(), result);
+										gpaCalDao.saveResultPreviouslySelectedSubjects(userId, course.getCourseId(), result);
 									}
 								}
 							}
@@ -251,28 +274,6 @@ public class SemesterGpa {
 			}
 		});
 
-//		DefaultTableModel tableModel = new DefaultTableModel();
-//		JTable table = new JTable(tableModel);
-//		table.setVisible(true);
-//		tableModel.addColumn("Languages");
-//		tableModel.insertRow(0, new Object[] { "CSS" });
-//		tableModel.insertRow(0, new Object[] { "HTML5" });
-//		tableModel.insertRow(0, new Object[] { "JavaScript" });
-//		tableModel.insertRow(0, new Object[] { "jQuery" });
-//		tableModel.insertRow(0, new Object[] { "AngularJS" });
-//		// adding a new row
-//		tableModel.insertRow(tableModel.getRowCount(), new Object[] { "ExpressJS" });
-
-
-//		JLabel lblNewLabel_3 = new JLabel("GPA");
-//		lblNewLabel_3.setBounds(44, 359, 56, 16);
-//		frame.getContentPane().add(lblNewLabel_3);
-//
-//		textField = new JTextField();
-//		textField.setBounds(115, 356, 116, 22);
-//		frame.getContentPane().add(textField);
-//		textField.setColumns(10);
-
 		JLabel rightSideBackground = new JLabel("");
 		rightSideBackground.setIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/right_side_signup_page.jpg"));
 		rightSideBackground.setHorizontalAlignment(SwingConstants.CENTER);
@@ -281,50 +282,57 @@ public class SemesterGpa {
 	}
 
 	private void populateAlreadyAddedSem() {
-		allSubjectsWithResultsBySemNumberAndUserIdFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
-		if (allSubjectsWithResultsBySemNumberAndUserIdFromDb != null) {
-			for (Subject subject : allSubjectsWithResultsBySemNumberAndUserIdFromDb.getSubjectList()) {
-				String subjectCode = subject.getSubjectCode();
-				String subjectName = subject.getSubjectName();
+		allCoursesWithResultsBySemNumberAndUserIdFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+		if (allCoursesWithResultsBySemNumberAndUserIdFromDb != null) {
+			while (model.getRowCount() != 0) {
+				model.removeRow(0);
+			}
+			for (Course course : allCoursesWithResultsBySemNumberAndUserIdFromDb.getSubjectList()) {
+				String CourseCode = course.getCourseCode();
+				String CourseName = course.getCourseName();
 				String resultGrade;
-				if (subject.getResult().getResultGrade() != null) {
-					resultGrade = subject.getResult().getResultGrade();
+				if (course.getResult().getResultGrade() != null) {
+					resultGrade = course.getResult().getResultGrade();
 				} else {
 					resultGrade = "NOT ADD";
 				}
-				model.addRow(new Object[]{subjectCode, subjectName, resultGrade});
+				model.addRow(new Object[]{CourseCode, CourseName, resultGrade});
 			}
 		}
 	}
 
-	private List<String> populateAllSubjectsForSem() {
-		subjectListFromDb = gpaCalDao.getAllSubjectsBySemNo(semNumber);
+	private List<String> populateAllCoursesForSem() {
+		courseListFromDb = gpaCalDao.getAllSubjectsBySemNo(semNumber);
 		User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
-		List<String> subjectCodesList = new ArrayList<>();
-		List<String> alreadySavedSubjectCodesList = new ArrayList<>();
+		List<String> CourseCodesList = new ArrayList<>();
+		List<String> alreadySavedCourseCodesList = new ArrayList<>();
 		if (userFromDb != null) {
-			for (Subject subject1 : userFromDb.getSubjectList()) {
-				if (subject1 != null) {
-					if (subject1.getSubjectCode() != null) {
-						alreadySavedSubjectCodesList.add(subject1.getSubjectCode());
+			while (model.getRowCount() != 0) {
+				model.removeRow(0);
+			}
+			for (Course course1 : userFromDb.getSubjectList()) {
+				if (course1 != null) {
+					if (course1.getCourseCode() != null) {
+						alreadySavedCourseCodesList.add(course1.getCourseCode());
+						model.addRow(new Object[]{course1.getCourseCode(), course1.getCourseName(), course1.getResult().getResultGrade()});
 					}
 				}
 			}
 		}
-		for (Subject subject : subjectListFromDb) {
-			if (subject != null) {
-				if (subject.getSubjectCode() != null) {
+		for (Course course : courseListFromDb) {
+			if (course != null) {
+				if (course.getCourseCode() != null) {
 					if (userFromDb != null) {
-						if (!alreadySavedSubjectCodesList.contains(subject.getSubjectCode())) {
-							subjectCodesList.add(subject.getSubjectCode());
+						if (!alreadySavedCourseCodesList.contains(course.getCourseCode())) {
+							CourseCodesList.add(course.getCourseCode());
 						}
 					} else {
-						subjectCodesList.add(subject.getSubjectCode());
+						CourseCodesList.add(course.getCourseCode());
 					}
 				}
 			}
 		}
-		return subjectCodesList;
+		return CourseCodesList;
 	}
 
 	private Double calculateGpa(List<PredictReportResult> semResults) {

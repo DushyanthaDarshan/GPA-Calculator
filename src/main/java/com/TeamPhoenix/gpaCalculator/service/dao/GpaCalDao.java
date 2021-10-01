@@ -1,8 +1,8 @@
 package com.TeamPhoenix.gpaCalculator.service.dao;
 
+import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Result;
-import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.User;
 
 import java.util.List;
@@ -143,4 +143,13 @@ public interface GpaCalDao {
      * @param subjectCode
      */
     void deleteUserSubjectEnrollment(Long userId, String subjectCode);
+
+    /**
+     * The method to delete result
+     *
+     * @param userId
+     * @param subjectCode
+     */
+    void deleteResult(Long userId, String subjectCode);
+
 }
