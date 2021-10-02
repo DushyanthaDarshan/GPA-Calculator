@@ -3,7 +3,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao;
 import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Result;
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface GpaCalDao {
      * @param username
      * @return
      */
-    User getUserDetailsByUsername(String username);
+    Student getUserDetailsByUsername(String username);
 
     /**
      * The method to get user details from database by username
@@ -23,7 +23,7 @@ public interface GpaCalDao {
      * @param username
      * @return
      */
-    User getUserDetailsByUsernameAndPassword(String username, String pw);
+    Student getUserDetailsByUsernameAndPassword(String username, String pw);
 
     /**
      * The method to get user details from database by index number
@@ -31,14 +31,14 @@ public interface GpaCalDao {
      * @param indexNumber
      * @return
      */
-    User getUserDetailsByIndexNumber(String indexNumber);
+    Student getUserDetailsByIndexNumber(String indexNumber);
 
     /**
      * The method to save user
      *
-     * @param user
+     * @param student
      */
-    void saveUserDetails(User user);
+    void saveUserDetails(Student student);
 
     /**
      * The method to get all gpa values relevant to the user
@@ -55,7 +55,7 @@ public interface GpaCalDao {
      * @param userId
      * @return
      */
-    User getAllSubjectAndUserDetailsBySemNumber(Integer semNumber, Long userId);
+    Student getAllSubjectAndUserDetailsBySemNumber(Integer semNumber, Long userId);
 
     /**
      * The method to get overall gpa
@@ -126,7 +126,7 @@ public interface GpaCalDao {
      * @param userId
      * @return
      */
-    User getUserByUserId(Long userId);
+    Student getUserByUserId(Long userId);
 
     /**
      * The method to get all core subject by userId

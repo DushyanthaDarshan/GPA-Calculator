@@ -2,7 +2,7 @@ package com.TeamPhoenix.gpaCalculator.service.manager;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Course;
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 
@@ -90,9 +90,9 @@ public class AddSubjectsForNextSem {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+                Student studentFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
                 List<String> alreadySavedSubjectCodesList = new ArrayList<>();
-                for (Course subject1 : userFromDb.getSubjectList()) {
+                for (Course subject1 : studentFromDb.getSubjectList()) {
                     if (subject1.getCourseCode() != null) {
                         alreadySavedSubjectCodesList.add(subject1.getCourseCode());
                     }
@@ -171,14 +171,14 @@ public class AddSubjectsForNextSem {
     }
 
     private List<String> populateAllSubjectsForSem() {
-        User userWithNextSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+        Student studentWithNextSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
         List<String> subjectCodesList = new ArrayList<>();
         List<String> alreadySavedSubjectCodesList = new ArrayList<>();
-        if (userWithNextSemSubjects != null) {
+        if (studentWithNextSemSubjects != null) {
             while (model.getRowCount() != 0) {
                 model.removeRow(0);
             }
-            for (Course course1 : userWithNextSemSubjects.getSubjectList()) {
+            for (Course course1 : studentWithNextSemSubjects.getSubjectList()) {
                 if (course1 != null) {
                     if (course1.getCourseCode() != null) {
                         alreadySavedSubjectCodesList.add(course1.getCourseCode());
@@ -190,7 +190,7 @@ public class AddSubjectsForNextSem {
         for (Course course : courseListFromDb) {
             if (course != null) {
                 if (course.getCourseCode() != null) {
-                    if (userWithNextSemSubjects != null) {
+                    if (studentWithNextSemSubjects != null) {
                         if (!alreadySavedSubjectCodesList.contains(course.getCourseCode())) {
                             subjectCodesList.add(course.getCourseCode());
                         }

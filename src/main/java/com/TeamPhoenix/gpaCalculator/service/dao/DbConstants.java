@@ -13,6 +13,7 @@ public final class DbConstants {
     //User related
     public static final String USER_ID = "USER_ID";
     public static final String NAME = "NAME";
+    public static final String USER_TYPE = "USER_TYPE";
     public static final String INDEX_NUMBER = "INDEX_NUMBER";
     public static final String BATCH = "BATCH";
     public static final String PASSWORD = "PASSWORD";

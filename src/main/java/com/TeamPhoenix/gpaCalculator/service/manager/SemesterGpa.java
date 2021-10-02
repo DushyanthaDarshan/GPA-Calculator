@@ -25,7 +25,7 @@ public class SemesterGpa {
 	private DefaultTableModel model;
 	private Long userId;
 	private int semNumber;
-	private User allCoursesWithResultsBySemNumberAndUserIdFromDb;
+	private Student allCoursesWithResultsBySemNumberAndStudentIdFromDb;
 	private List<Course> courseListFromDb;
 	private JComboBox comboBox_1;
 	private Map<String, Double> gradeWithGpvMap = new HashMap<>();
@@ -118,9 +118,9 @@ public class SemesterGpa {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+				Student studentFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 				List<String> alreadySavedSubjectCodesList = new ArrayList<>();
-				for (Course course1 : userFromDb.getSubjectList()) {
+				for (Course course1 : studentFromDb.getSubjectList()) {
 					if (course1.getCourseCode() != null) {
 						alreadySavedSubjectCodesList.add(course1.getCourseCode());
 					}
@@ -171,10 +171,10 @@ public class SemesterGpa {
 				gradeWithGpvMap.put("D", 1.3);
 				gradeWithGpvMap.put("D-", 1.0);
 
-				User user = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
-				if (user != null) {
+				Student student = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+				if (student != null) {
 					List<PredictReportResult> semResult = new ArrayList<>();
-					for (Course course : user.getSubjectList()) {
+					for (Course course : student.getSubjectList()) {
 						if (course != null) {
 							PredictReportResult predictReportResult = new PredictReportResult();
 							predictReportResult.setSubjectName(course.getCourseName());
@@ -252,9 +252,9 @@ public class SemesterGpa {
 					table.setValueAt(newGrade, row, column);
 
 					if (newGrade != null) {
-						User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
-						if (userFromDb != null) {
-							for (Course course : userFromDb.getSubjectList()) {
+						Student studentFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+						if (studentFromDb != null) {
+							for (Course course : studentFromDb.getSubjectList()) {
 								if (course.getCourseCode().equals((String) table.getValueAt(row, 0))) {
 									if (!oldGrade.equals("NOT ADD")) {
 										gpaCalDao.updateResult(userId, course.getCourseId(), newGrade);
@@ -282,12 +282,12 @@ public class SemesterGpa {
 	}
 
 	private void populateAlreadyAddedSem() {
-		allCoursesWithResultsBySemNumberAndUserIdFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
-		if (allCoursesWithResultsBySemNumberAndUserIdFromDb != null) {
+		allCoursesWithResultsBySemNumberAndStudentIdFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+		if (allCoursesWithResultsBySemNumberAndStudentIdFromDb != null) {
 			while (model.getRowCount() != 0) {
 				model.removeRow(0);
 			}
-			for (Course course : allCoursesWithResultsBySemNumberAndUserIdFromDb.getSubjectList()) {
+			for (Course course : allCoursesWithResultsBySemNumberAndStudentIdFromDb.getSubjectList()) {
 				String CourseCode = course.getCourseCode();
 				String CourseName = course.getCourseName();
 				String resultGrade;
@@ -303,14 +303,14 @@ public class SemesterGpa {
 
 	private List<String> populateAllCoursesForSem() {
 		courseListFromDb = gpaCalDao.getAllSubjectsBySemNo(semNumber);
-		User userFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
+		Student studentFromDb = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 		List<String> CourseCodesList = new ArrayList<>();
 		List<String> alreadySavedCourseCodesList = new ArrayList<>();
-		if (userFromDb != null) {
+		if (studentFromDb != null) {
 			while (model.getRowCount() != 0) {
 				model.removeRow(0);
 			}
-			for (Course course1 : userFromDb.getSubjectList()) {
+			for (Course course1 : studentFromDb.getSubjectList()) {
 				if (course1 != null) {
 					if (course1.getCourseCode() != null) {
 						alreadySavedCourseCodesList.add(course1.getCourseCode());
@@ -322,7 +322,7 @@ public class SemesterGpa {
 		for (Course course : courseListFromDb) {
 			if (course != null) {
 				if (course.getCourseCode() != null) {
-					if (userFromDb != null) {
+					if (studentFromDb != null) {
 						if (!alreadySavedCourseCodesList.contains(course.getCourseCode())) {
 							CourseCodesList.add(course.getCourseCode());
 						}

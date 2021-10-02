@@ -3,7 +3,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao.Impl;
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.Result;
 import com.TeamPhoenix.gpaCalculator.beans.Course;
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.CommonDb;
 import com.TeamPhoenix.gpaCalculator.service.dao.DbConstants;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
@@ -23,74 +23,74 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     CommonDb commonDb = new CommonDb();
 
     @Override
-    public User getUserDetailsByUsername(String username) {
+    public Student getUserDetailsByUsername(String username) {
 
-        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
+        String query = "SELECT USER_ID, USER_TYPE, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
 
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<User> userList = new ArrayList<>();
-        populateUser(resultSet, userList);
+        List<Student> studentList = new ArrayList<>();
+        populateUser(resultSet, studentList);
 
-        User user = null;
-        if (userList.isEmpty()) {
+        Student student = null;
+        if (studentList.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (userList.size() == 1) {
-            user = userList.get(0);
+        } else if (studentList.size() == 1) {
+            student = studentList.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return user;
+        return student;
     }
 
     @Override
-    public User getUserDetailsByUsernameAndPassword(String username, String pw) {
+    public Student getUserDetailsByUsernameAndPassword(String username, String pw) {
 
-        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "' AND PASSWORD='" + pw + "'";
+        String query = "SELECT USER_ID, USER_TYPE, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "' AND PASSWORD='" + pw + "'";
 
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<User> userList = new ArrayList<>();
-        populateUser(resultSet, userList);
+        List<Student> studentList = new ArrayList<>();
+        populateUser(resultSet, studentList);
 
-        User user = null;
-        if (userList.isEmpty()) {
+        Student student = null;
+        if (studentList.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (userList.size() == 1) {
-            user = userList.get(0);
+        } else if (studentList.size() == 1) {
+            student = studentList.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return user;
+        return student;
     }
 
     @Override
-    public User getUserDetailsByIndexNumber(String indexNumber) {
-        String query = "SELECT USER_ID, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='"
+    public Student getUserDetailsByIndexNumber(String indexNumber) {
+        String query = "SELECT USER_ID, USER_TYPE, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='"
                 + indexNumber + "'";
 
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<User> userList = new ArrayList<>();
-        populateUser(resultSet, userList);
+        List<Student> studentList = new ArrayList<>();
+        populateUser(resultSet, studentList);
 
-        User user = null;
-        if (userList.isEmpty()) {
+        Student student = null;
+        if (studentList.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (userList.size() == 1) {
-            user = userList.get(0);
+        } else if (studentList.size() == 1) {
+            student = studentList.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return user;
+        return student;
     }
 
     @Override
-    public void saveUserDetails(User user) {
+    public void saveUserDetails(Student student) {
         String query = "INSERT INTO USER (NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, " +
-                "USER_STATUS, USER_CREATED_TS) VALUES ('" + user.getName() + "', '" + user.getIndexNumber() + "', '" +
-                user.getBatch() + "', '" + user.getPassword() + "', '" + user.getUsername() + "', '" + user.getStream() +
-                "', '" + user.getCombination() + "', '" + user.getDegree() + "', '" + user.getStatus() + "', '" + user.getCreatedTs() + "')";
+                "USER_STATUS, USER_CREATED_TS) VALUES ('" + student.getName() + "', '" + student.getIndexNumber() + "', '" +
+                student.getBatch() + "', '" + student.getPassword() + "', '" + student.getUsername() + "', '" + student.getStream() +
+                "', '" + student.getCombination() + "', '" + student.getDegree() + "', '" + student.getStatus() + "', '" + student.getCreatedTs() + "')";
         System.out.println(query);
         commonDb.saveDataToDb(query);
     }
@@ -105,7 +105,7 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     }
 
     @Override
-    public User getAllSubjectAndUserDetailsBySemNumber(Integer semNumber, Long userId) {
+    public Student getAllSubjectAndUserDetailsBySemNumber(Integer semNumber, Long userId) {
         String query = "SELECT S.SUBJECT_ID, S.SUBJECT_NAME, S.SUBJECT_BASE_CATEGORY_ID, S.SUBJECT_CODE, S.SUBJECT_TYPE, " +
                 "S.SUBJECT_CREDITS, S.SEMESTER_NUMBER, S.SUBJECT_STATUS, S.SUBJECT_CREATED_TS, U.USER_ID, U.NAME, U.INDEX_NUMBER, " +
                 "U.BATCH, U.PASSWORD, U.USERNAME, U.STREAM, U.COMBINATION, U.DEGREE, U.USER_STATUS, U.USER_CREATED_TS, " +
@@ -115,25 +115,25 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
                 "LEFT JOIN RESULT R ON (US.USER_SUBJECT_ID=R.USER_SUBJECT_ID) " +
                 "WHERE S.SEMESTER_NUMBER='" + semNumber + "' AND U.USER_ID='" + userId + "'";
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        Map<Long, User> userMap = new HashMap<>();
+        Map<Long, Student> userMap = new HashMap<>();
         List<Long> subjectIds = new ArrayList<>();
         populateUserAndSubject(resultSet, userMap, subjectIds);
 
-        final List<User> listOfUsers = new ArrayList<>();
+        final List<Student> listOfStudents = new ArrayList<>();
         if (!userMap.isEmpty()) {
-            listOfUsers.addAll(userMap.values());
+            listOfStudents.addAll(userMap.values());
         }
 
-        User user = null;
-        if (listOfUsers.isEmpty()) {
+        Student student = null;
+        if (listOfStudents.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (listOfUsers.size() == 1) {
-            user = listOfUsers.get(0);
+        } else if (listOfStudents.size() == 1) {
+            student = listOfStudents.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return user;
+        return student;
     }
 
     @Override
@@ -210,23 +210,23 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     }
 
     @Override
-    public User getUserByUserId(Long userId) {
-        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USER_ID='" + userId + "'";
+    public Student getUserByUserId(Long userId) {
+        String query = "SELECT USER_ID, USER_TYPE, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USER_ID='" + userId + "'";
 
         ResultSet resultSet = commonDb.getDataFromDb(query);
-        List<User> userList = new ArrayList<>();
-        populateUser(resultSet, userList);
+        List<Student> studentList = new ArrayList<>();
+        populateUser(resultSet, studentList);
 
-        User user = null;
-        if (userList.isEmpty()) {
+        Student student = null;
+        if (studentList.isEmpty()) {
             System.err.println(NO_OBJECT_FOUND);
-        } else if (userList.size() == 1) {
-            user = userList.get(0);
+        } else if (studentList.size() == 1) {
+            student = studentList.get(0);
         } else {
             System.err.println(MULTIPLE_OBJECTS_FOUND);
         }
 
-        return user;
+        return student;
     }
 
 
@@ -272,17 +272,18 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         commonDb.saveDataToDb(query);
     }
 
-    private void populateUser(ResultSet resultSet, List<User> userList) {
+    private void populateUser(ResultSet resultSet, List<Student> studentList) {
         try {
             while (resultSet.next()) {
-                User user = new User();
-                user.setUserId(resultSet.getLong(DbConstants.USER_ID));
-                user.setName(resultSet.getString(DbConstants.NAME));
-                user.setBatch(resultSet.getString(DbConstants.BATCH));
-                user.setPassword(resultSet.getString(DbConstants.PASSWORD));
-                user.setUsername(resultSet.getString(DbConstants.USERNAME));
-                user.setStream(resultSet.getString(DbConstants.STREAM));
-                userList.add(user);
+                Student student = new Student();
+                student.setUserId(resultSet.getLong(DbConstants.USER_ID));
+                student.setName(resultSet.getString(DbConstants.NAME));
+                student.setUserType(resultSet.getString(DbConstants.USER_TYPE));
+                student.setBatch(resultSet.getString(DbConstants.BATCH));
+                student.setPassword(resultSet.getString(DbConstants.PASSWORD));
+                student.setUsername(resultSet.getString(DbConstants.USERNAME));
+                student.setStream(resultSet.getString(DbConstants.STREAM));
+                studentList.add(student);
             }
         } catch (SQLException se) {
             se.printStackTrace();
@@ -305,33 +306,33 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         }
     }
 
-    private void populateUserAndSubject(ResultSet resultSet, Map<Long, User> userMap, List<Long> subjectIds) {
+    private void populateUserAndSubject(ResultSet resultSet, Map<Long, Student> userMap, List<Long> subjectIds) {
         try {
             while (resultSet.next()) {
                 Long userId = resultSet.getLong(DbConstants.USER_ID);
-                User user;
+                Student student;
                 if (!userMap.containsKey(userId)) {
-                    user = new User();
-                    user.setUserId(userId);
-                    user.setName(resultSet.getString(DbConstants.NAME));
-                    user.setBatch(resultSet.getString(DbConstants.BATCH));
-                    user.setPassword(resultSet.getString(DbConstants.PASSWORD));
-                    user.setUsername(resultSet.getString(DbConstants.USERNAME));
-                    user.setStream(resultSet.getString(DbConstants.STREAM));
+                    student = new Student();
+                    student.setUserId(userId);
+                    student.setName(resultSet.getString(DbConstants.NAME));
+                    student.setBatch(resultSet.getString(DbConstants.BATCH));
+                    student.setPassword(resultSet.getString(DbConstants.PASSWORD));
+                    student.setUsername(resultSet.getString(DbConstants.USERNAME));
+                    student.setStream(resultSet.getString(DbConstants.STREAM));
                 } else {
-                    user = userMap.get(userId);
+                    student = userMap.get(userId);
                 }
                 long subjectId = resultSet.getInt(DbConstants.SUBJECT_ID);
-                populateSubjects(resultSet, subjectIds, user, subjectId);
+                populateSubjects(resultSet, subjectIds, student, subjectId);
 
-                userMap.put(userId, user);
+                userMap.put(userId, student);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
     }
 
-    private void populateSubjects(ResultSet resultSet, List<Long> subjectIds, User user, long subjectId) throws SQLException {
+    private void populateSubjects(ResultSet resultSet, List<Long> subjectIds, Student student, long subjectId) throws SQLException {
         if (subjectId > 0 && !subjectIds.contains(subjectId)) {
             Result result = new Result();
             result.setResultId(resultSet.getLong(DbConstants.RESULT_ID));
@@ -351,7 +352,7 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
             course.setSemesterNumber(resultSet.getInt(DbConstants.SEMESTER_NUMBER));
             course.setStatus(resultSet.getString(DbConstants.SUBJECT_STATUS));
             course.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
-            user.getSubjectList().add(course);
+            student.getSubjectList().add(course);
             subjectIds.add(subjectId);
         }
     }

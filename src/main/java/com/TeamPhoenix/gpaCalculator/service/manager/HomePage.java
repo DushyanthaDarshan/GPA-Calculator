@@ -1,7 +1,7 @@
 package com.TeamPhoenix.gpaCalculator.service.manager;
 
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 
@@ -244,9 +244,9 @@ public class HomePage {
 	}
 
 	private void populateUser() {
-		User userFromDb = gpaCalDao.getUserByUserId(userId);
-		if (userFromDb != null) {
-			lblName.setText("HI " + userFromDb.getName() + " !");
+		Student studentFromDb = gpaCalDao.getUserByUserId(userId);
+		if (studentFromDb != null) {
+			lblName.setText("HI " + studentFromDb.getName() + " !");
 		}
 	}
 

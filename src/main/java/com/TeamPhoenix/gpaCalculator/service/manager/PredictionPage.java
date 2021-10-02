@@ -3,7 +3,7 @@ package com.TeamPhoenix.gpaCalculator.service.manager;
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.PredictReportResult;
 import com.TeamPhoenix.gpaCalculator.beans.Course;
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 import com.google.gson.Gson;
@@ -152,15 +152,15 @@ public class PredictionPage {
             }
             int sizeOfList = semNumbersList.size();
             semNumber = sizeOfList + 1;
-            User userWithNextSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(sizeOfList + 1, userId);
-            if (userWithNextSemSubjects != null) {
+            Student studentWithNextSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(sizeOfList + 1, userId);
+            if (studentWithNextSemSubjects != null) {
 //                Gpa overallGpa = gpaCalDao.getOverallGpa(userId, "OVERALL");
                 List<PredictReportResult> oldSemResults = new ArrayList<>();
                 List<PredictReportResult> newSemResults = new ArrayList<>();
                 for (int i = 0; sizeOfList > i; i++) {
-                    User userWithSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(i + 1, userId);
-                    if (userWithSemSubjects != null) {
-                        for (Course course : userWithSemSubjects.getSubjectList()) {
+                    Student studentWithSemSubjects = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(i + 1, userId);
+                    if (studentWithSemSubjects != null) {
+                        for (Course course : studentWithSemSubjects.getSubjectList()) {
                             PredictReportResult predictReportResult = new PredictReportResult();
                             predictReportResult.setSubjectName(course.getCourseName());
                             predictReportResult.setSubjectCode(course.getCourseCode());
@@ -172,7 +172,7 @@ public class PredictionPage {
                         }
                     }
                 }
-                for (Course course : userWithNextSemSubjects.getSubjectList()) {
+                for (Course course : studentWithNextSemSubjects.getSubjectList()) {
                     PredictReportResult predictReportResult = new PredictReportResult();
                     predictReportResult.setSubjectName(course.getCourseName());
                     predictReportResult.setSubjectCode(course.getCourseCode());

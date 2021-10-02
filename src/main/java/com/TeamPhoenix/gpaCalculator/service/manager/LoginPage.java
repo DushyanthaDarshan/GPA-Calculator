@@ -1,9 +1,8 @@
 package com.TeamPhoenix.gpaCalculator.service.manager;
 
-import com.TeamPhoenix.gpaCalculator.beans.User;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class LoginPage{
 
@@ -155,13 +152,17 @@ public class LoginPage{
                 String userName = usernameTextFieldLogin.getText();
                 String password = String.valueOf(passwordTextFieldLogin.getPassword());
 
-                User user = gpaCalDao.getUserDetailsByUsernameAndPassword(userName, password);
-                if (user == null) {
+                Student student = gpaCalDao.getUserDetailsByUsernameAndPassword(userName, password);
+                if (student == null) {
                     JOptionPane.showMessageDialog(frame, "Your Username or Password is incorrect. Please try again.", "Login Failed", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(frame, "You have logged in successfully.", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                     frame.dispose();
-                    new HomePage(user.getUserId());
+                    if (student.getUserType().equals("STUDENT")) {
+                        new HomePage(student.getUserId());
+                    } else {
+                        //TODO - connect admin home page
+                    }
                 }
 
             }
