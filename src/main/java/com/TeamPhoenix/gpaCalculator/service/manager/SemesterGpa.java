@@ -165,11 +165,11 @@ public class SemesterGpa {
 				gradeWithGpvMap.put("B+", 3.3);
 				gradeWithGpvMap.put("B", 3.0);
 				gradeWithGpvMap.put("B-", 2.7);
-				gradeWithGpvMap.put("C+", 2.4);
-				gradeWithGpvMap.put("C", 2.1);
-				gradeWithGpvMap.put("D+", 1.8);
-				gradeWithGpvMap.put("D", 1.5);
-				gradeWithGpvMap.put("D-", 1.2);
+				gradeWithGpvMap.put("C+", 2.3);
+				gradeWithGpvMap.put("C", 2.0);
+				gradeWithGpvMap.put("D+", 1.7);
+				gradeWithGpvMap.put("D", 1.3);
+				gradeWithGpvMap.put("D-", 1.0);
 
 				User user = gpaCalDao.getAllSubjectAndUserDetailsBySemNumber(semNumber, userId);
 				if (user != null) {
