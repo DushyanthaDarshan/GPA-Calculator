@@ -7,6 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.awt.event.*;
+import java.util.Objects;
 import java.awt.event.*;
 import java.util.Objects;
 
@@ -80,16 +88,16 @@ public class SignupPage {
         JLabel leftSideApplicationName = new JLabel("");
         leftSideApplicationName.setForeground(new Color(255, 255, 255));
         leftSideApplicationName.setBackground(new Color(0, 0, 128));
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/logo.png").getImage().getScaledInstance(400, 500, Image.SCALE_DEFAULT));
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/GPAcal1.png").getImage().getScaledInstance(400, 500, Image.SCALE_DEFAULT));
         leftSideApplicationName.setIcon(imageIcon);
         leftSideApplicationName.setFont(new Font("Dialog", Font.BOLD, 22));
         leftSideApplicationName.setHorizontalAlignment(SwingConstants.CENTER);
-        leftSideApplicationName.setBounds(20, 37, 300, 600);
+        leftSideApplicationName.setBounds(20, 170, 350, 350);
         panel_1.add(leftSideApplicationName);
 
         //name related
-        JLabel signupPageMainName = new JLabel("Register now");
-        signupPageMainName.setBounds(60, 550, 300, 30);
+        JLabel signupPageMainName = new JLabel("Sign Up");
+        signupPageMainName.setBounds(640, 35, 200, 45);
         signupPageMainName.setForeground(new Color(255, 255, 255));
         signupPageMainName.setBackground(new Color(255, 255, 255));
         signupPageMainName.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -97,24 +105,24 @@ public class SignupPage {
 
         //name related
         JLabel nameLabelForRegister = new JLabel("Name : ");
-        nameLabelForRegister.setBounds(420, 63, 90, 15);
+        nameLabelForRegister.setBounds(420, 110, 90, 15);
         nameLabelForRegister.setForeground(new Color(255, 255, 255));
         nameLabelForRegister.setBackground(new Color(255, 255, 255));
         nameLabelForRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(nameLabelForRegister);
 
         nameTextFieldRegister = new JTextField();
-        nameTextFieldRegister.setBounds(535, 63, 400, 19);
-        nameTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        nameTextFieldRegister.setBounds(535, 110, 400, 25);
+        nameTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         nameTextFieldRegister.setForeground(new Color(255, 255, 255));
         nameTextFieldRegister.setCaretColor(new Color(255, 255, 255));
-        nameTextFieldRegister.setBackground(new Color(1, 47, 142));
+        nameTextFieldRegister.setBackground(new Color(0, 46, 98));
         nameTextFieldRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(nameTextFieldRegister);
         nameTextFieldRegister.setColumns(10);
 
         nameRegisterError = new JLabel("");
-        nameRegisterError.setBounds(420, 93, 500, 15);
+        nameRegisterError.setBounds(420, 140, 500, 15);
         nameRegisterError.setForeground(new Color(255, 0, 0));
         nameRegisterError.setBackground(new Color(255, 255, 255));
         nameRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -122,24 +130,24 @@ public class SignupPage {
 
         //username related
         JLabel usernameLabelRegister = new JLabel("Username : ");
-        usernameLabelRegister.setBounds(420, 110, 200, 15);
+        usernameLabelRegister.setBounds(420, 160, 200, 15);
         usernameLabelRegister.setForeground(new Color(255, 255, 255));
         usernameLabelRegister.setBackground(new Color(255, 255, 255));
         usernameLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(usernameLabelRegister);
 
         usernameTextFieldRegister = new JTextField();
-        usernameTextFieldRegister.setBounds(535, 110, 400, 19);
-        usernameTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        usernameTextFieldRegister.setBounds(535, 160, 400, 25);
+        usernameTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         usernameTextFieldRegister.setForeground(new Color(255, 255, 255));
         usernameTextFieldRegister.setCaretColor(new Color(255, 255, 255));
-        usernameTextFieldRegister.setBackground(new Color(1, 47, 142));
+        usernameTextFieldRegister.setBackground(new Color(0, 46, 98));
         usernameTextFieldRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(usernameTextFieldRegister);
         usernameTextFieldRegister.setColumns(10);
 
         usernameRegisterError = new JLabel("");
-        usernameRegisterError.setBounds(420, 140, 500, 15);
+        usernameRegisterError.setBounds(420, 190, 500, 15);
         usernameRegisterError.setForeground(new Color(255, 0, 0));
         usernameRegisterError.setBackground(new Color(255, 255, 255));
         usernameRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -147,24 +155,24 @@ public class SignupPage {
 
         //index number related
         JLabel indexNumberLabelRegister = new JLabel("Index No : ");
-        indexNumberLabelRegister.setBounds(420, 157, 90, 15);
+        indexNumberLabelRegister.setBounds(420, 210, 90, 15);
         indexNumberLabelRegister.setForeground(new Color(255, 255, 255));
         indexNumberLabelRegister.setBackground(new Color(255, 255, 255));
         indexNumberLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(indexNumberLabelRegister);
 
         indexNumberTextFieldRegister = new JTextField();
-        indexNumberTextFieldRegister.setBounds(535, 157, 400, 19);
-        indexNumberTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        indexNumberTextFieldRegister.setBounds(535, 210, 400, 25);
+        indexNumberTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         indexNumberTextFieldRegister.setForeground(new Color(255, 255, 255));
         indexNumberTextFieldRegister.setCaretColor(new Color(255, 255, 255));
-        indexNumberTextFieldRegister.setBackground(new Color(1, 47, 142));
+        indexNumberTextFieldRegister.setBackground(new Color(0, 46, 98));
         indexNumberTextFieldRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(indexNumberTextFieldRegister);
         indexNumberTextFieldRegister.setColumns(10);
 
         indexNumberRegisterError = new JLabel("");
-        indexNumberRegisterError.setBounds(420, 187, 500, 15);
+        indexNumberRegisterError.setBounds(420, 240, 500, 15);
         indexNumberRegisterError.setForeground(new Color(255, 0, 0));
         indexNumberRegisterError.setBackground(new Color(255, 255, 255));
         indexNumberRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -172,7 +180,7 @@ public class SignupPage {
 
         //batch related
         JLabel batchLabelRegister = new JLabel("Batch : ");
-        batchLabelRegister.setBounds(420, 204, 90, 15);
+        batchLabelRegister.setBounds(420, 270, 90, 15);
         batchLabelRegister.setForeground(new Color(255, 255, 255));
         batchLabelRegister.setBackground(new Color(255, 255, 255));
         batchLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -182,15 +190,17 @@ public class SignupPage {
         batchSelectRegister = new JComboBox(batchList);
         batchSelectRegister.setSelectedIndex(2);
         batchSelectRegister.setEditable(true);
-        batchSelectRegister.setBounds(535, 204, 400, 19);
-        batchSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        batchSelectRegister.setBounds(535, 270, 400, 22);
+        batchSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         batchSelectRegister.setForeground(new Color(255, 255, 255));
-        batchSelectRegister.setBackground(new Color(1, 47, 142));
+//        batchTextFieldRegister.setCaretColor(new Color(255, 255, 255));
+        batchSelectRegister.setBackground(new Color(0, 46, 98));
         batchSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(batchSelectRegister);
+//        batchTextFieldRegister.setColumns(10);
 
         batchRegisterError = new JLabel("");
-        batchRegisterError.setBounds(420, 234, 500, 15);
+        batchRegisterError.setBounds(420, 300, 500, 15);
         batchRegisterError.setForeground(new Color(255, 0, 0));
         batchRegisterError.setBackground(new Color(255, 255, 255));
         batchRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -198,7 +208,7 @@ public class SignupPage {
 
         //stream related
         JLabel streamLabelRegister = new JLabel("Stream : ");
-        streamLabelRegister.setBounds(420, 251, 90, 15);
+        streamLabelRegister.setBounds(420, 320, 90, 15);
         streamLabelRegister.setForeground(new Color(255, 255, 255));
         streamLabelRegister.setBackground(new Color(255, 255, 255));
         streamLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -208,15 +218,17 @@ public class SignupPage {
         streamSelectRegister = new JComboBox(streamList);
         streamSelectRegister.setEditable(true);
         streamSelectRegister.setSelectedIndex(0);
-        streamSelectRegister.setBounds(535, 251, 400, 19);
-        streamSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        streamSelectRegister.setBounds(535, 320, 400, 22);
+        streamSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         streamSelectRegister.setForeground(new Color(255, 255, 255));
-        streamSelectRegister.setBackground(new Color(1, 47, 142));
+//        streamTextFieldRegister.setCaretColor(new Color(255, 255, 255));
+        streamSelectRegister.setBackground(new Color(0, 46, 98));
         streamSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(streamSelectRegister);
+//        streamTextFieldRegister.setColumns(10);
 
         streamRegisterError = new JLabel("");
-        streamRegisterError.setBounds(420, 281, 500, 15);
+        streamRegisterError.setBounds(420, 350, 500, 15);
         streamRegisterError.setForeground(new Color(255, 0, 0));
         streamRegisterError.setBackground(new Color(255, 255, 255));
         streamRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -224,7 +236,7 @@ public class SignupPage {
 
         //Combination related
         JLabel combinationLabelRegister = new JLabel("Combination : ");
-        combinationLabelRegister.setBounds(420, 298, 110, 15);
+        combinationLabelRegister.setBounds(420, 370, 110, 15);
         combinationLabelRegister.setForeground(new Color(255, 255, 255));
         combinationLabelRegister.setBackground(new Color(255, 255, 255));
         combinationLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -234,15 +246,17 @@ public class SignupPage {
         combinationSelectRegister = new JComboBox(combinationList);
         combinationSelectRegister.setSelectedIndex(1);
         combinationSelectRegister.setEditable(true);
-        combinationSelectRegister.setBounds(535, 298, 400, 19);
-        combinationSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        combinationSelectRegister.setBounds(535, 370, 400, 22);
+        combinationSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         combinationSelectRegister.setForeground(new Color(255, 255, 255));
-        combinationSelectRegister.setBackground(new Color(1, 47, 142));
+//        combinationSelectRegister.setCaretColor(new Color(255, 255, 255));
+        combinationSelectRegister.setBackground(new Color(0, 46, 98));
         combinationSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(combinationSelectRegister);
+//        combinationSelectRegister.setColumns(10);
 
         combinationRegisterError = new JLabel("");
-        combinationRegisterError.setBounds(420, 328, 500, 15);
+        combinationRegisterError.setBounds(420, 400, 500, 15);
         combinationRegisterError.setForeground(new Color(255, 0, 0));
         combinationRegisterError.setBackground(new Color(255, 255, 255));
         combinationRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -250,7 +264,7 @@ public class SignupPage {
 
         //Degree related
         JLabel degreeLabelRegister = new JLabel("Degree : ");
-        degreeLabelRegister.setBounds(420, 345, 110, 15);
+        degreeLabelRegister.setBounds(420, 420, 110, 15);
         degreeLabelRegister.setForeground(new Color(255, 255, 255));
         degreeLabelRegister.setBackground(new Color(255, 255, 255));
         degreeLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -262,17 +276,17 @@ public class SignupPage {
         degreeSelectRegister = new JComboBox(degreeList);
         degreeSelectRegister.setSelectedIndex(10);
         degreeSelectRegister.setEditable(true);
-        degreeSelectRegister.setBounds(535, 345, 400, 19);
-        degreeSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        degreeSelectRegister.setBounds(535, 420, 400, 22);
+        degreeSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         degreeSelectRegister.setForeground(new Color(255, 255, 255));
 //        degreeSelectRegister.setCaretColor(new Color(255, 255, 255));
-        degreeSelectRegister.setBackground(new Color(1, 47, 142));
+        degreeSelectRegister.setBackground(new Color(0, 46, 98));
         degreeSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(degreeSelectRegister);
 //        degreeSelectRegister.setColumns(10);
 
         degreeRegisterError = new JLabel("");
-        degreeRegisterError.setBounds(420, 375, 500, 15);
+        degreeRegisterError.setBounds(420, 450, 500, 15);
         degreeRegisterError.setForeground(new Color(255, 0, 0));
         degreeRegisterError.setBackground(new Color(255, 255, 255));
         degreeRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -280,24 +294,24 @@ public class SignupPage {
 
         //Password related
         JLabel passwordLabelRegister = new JLabel("Password : ");
-        passwordLabelRegister.setBounds(420, 392, 110, 15);
+        passwordLabelRegister.setBounds(420, 470, 110, 15);
         passwordLabelRegister.setForeground(new Color(255, 255, 255));
         passwordLabelRegister.setBackground(new Color(255, 255, 255));
         passwordLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(passwordLabelRegister);
 
         passwordTextFieldRegister = new JPasswordField();
-        passwordTextFieldRegister.setBounds(535, 392, 400, 19);
-        passwordTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        passwordTextFieldRegister.setBounds(535, 470, 400, 25);
+        passwordTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         passwordTextFieldRegister.setForeground(new Color(255, 255, 255));
         passwordTextFieldRegister.setCaretColor(new Color(255, 255, 255));
-        passwordTextFieldRegister.setBackground(new Color(1, 47, 142));
+        passwordTextFieldRegister.setBackground(new Color(0, 46, 98));
         passwordTextFieldRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(passwordTextFieldRegister);
         passwordTextFieldRegister.setColumns(10);
 
         passwordRegisterError = new JLabel("");
-        passwordRegisterError.setBounds(420, 422, 500, 15);
+        passwordRegisterError.setBounds(420, 500, 500, 15);
         passwordRegisterError.setForeground(new Color(255, 0, 0));
         passwordRegisterError.setBackground(new Color(255, 255, 255));
         passwordRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -305,24 +319,24 @@ public class SignupPage {
 
         //Confirm Password related
         JLabel confirmPasswordLabelRegister = new JLabel("Confirm Pw : ");
-        confirmPasswordLabelRegister.setBounds(420, 439, 110, 15);
+        confirmPasswordLabelRegister.setBounds(420, 520, 110, 15);
         confirmPasswordLabelRegister.setForeground(new Color(255, 255, 255));
         confirmPasswordLabelRegister.setBackground(new Color(255, 255, 255));
         confirmPasswordLabelRegister.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(confirmPasswordLabelRegister);
 
         confirmPasswordTextFieldRegister = new JPasswordField();
-        confirmPasswordTextFieldRegister.setBounds(535, 439, 400, 19);
-        confirmPasswordTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        confirmPasswordTextFieldRegister.setBounds(535, 520, 400, 25);
+        confirmPasswordTextFieldRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
         confirmPasswordTextFieldRegister.setForeground(new Color(255, 255, 255));
         confirmPasswordTextFieldRegister.setCaretColor(new Color(255, 255, 255));
-        confirmPasswordTextFieldRegister.setBackground(new Color(1, 47, 142));
+        confirmPasswordTextFieldRegister.setBackground(new Color(0, 46, 98));
         confirmPasswordTextFieldRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(confirmPasswordTextFieldRegister);
         confirmPasswordTextFieldRegister.setColumns(10);
 
         confirmPasswordRegisterError = new JLabel("");
-        confirmPasswordRegisterError.setBounds(420, 469, 500, 15);
+        confirmPasswordRegisterError.setBounds(420, 550, 500, 15);
         confirmPasswordRegisterError.setForeground(new Color(255, 0, 0));
         confirmPasswordRegisterError.setBackground(new Color(255, 255, 255));
         confirmPasswordRegisterError.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -330,7 +344,7 @@ public class SignupPage {
 
         //Register Button
         JButton userRegisterButton = new JButton("Register");
-        userRegisterButton.setBounds(630, 509, 117, 30);
+        userRegisterButton.setBounds(630, 570, 117, 30);
         userRegisterButton.setFont(new Font("Dialog", Font.BOLD, 16));
         userRegisterButton.setForeground(Color.WHITE);
         userRegisterButton.setBackground(new Color(0, 46, 98));
@@ -338,14 +352,14 @@ public class SignupPage {
 
         //Already have an account related
         JLabel alreadyHaveAnAccountPart1 = new JLabel("Already have an account? ");
-        alreadyHaveAnAccountPart1.setBounds(540, 559, 200, 15);
+        alreadyHaveAnAccountPart1.setBounds(555, 618, 200, 15);
         alreadyHaveAnAccountPart1.setForeground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart1.setBackground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart1.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(alreadyHaveAnAccountPart1);
 
         JLabel alreadyHaveAnAccountPart2 = new JLabel("Sign in ");
-        alreadyHaveAnAccountPart2.setBounds(740, 559, 110, 20);
+        alreadyHaveAnAccountPart2.setBounds(740, 615, 110, 20);
         alreadyHaveAnAccountPart2.setForeground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart2.setBackground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart2.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -426,7 +440,7 @@ public class SignupPage {
         userRegisterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GpaCalDao gpaDao = new GpaCalDaoImpl();
+                GpaCalDao gpaCalDao = new GpaCalDaoImpl();
 
                 String name = nameTextFieldRegister.getText();
                 String username = usernameTextFieldRegister.getText();
@@ -449,12 +463,13 @@ public class SignupPage {
                 user.setStream(stream);
                 user.setBatch(batch);
                 user.setStatus("ACTIVE");
+                user.setCreatedTs(Timestamp.valueOf(LocalDateTime.now()));
 
                 clearErrorsInErrorFields();
-                boolean status = validateInputs(user, gpaDao, confirmPw, redColor);
+                boolean status = validateInputs(user, gpaCalDao, confirmPw, redColor);
                 if (status) {
-                    gpaDao.saveUserDetails(user);
-                    User savedUser = gpaDao.getUserDetailsByUsername(username);
+                    gpaCalDao.saveUserDetails(user);
+                    User savedUser = gpaCalDao.getUserDetailsByUsername(username);
                     if (savedUser != null) {
                         clearTextFields();
                         JOptionPane.showMessageDialog(frame, "Successfully registered", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -501,7 +516,7 @@ public class SignupPage {
         confirmPasswordTextFieldRegister.setText("");
     }
 
-    private boolean validateInputs(User user, GpaCalDao gpaDao, String confirmPw, Color redColor) {
+    private boolean validateInputs(User user, GpaCalDao gpaCalDao, String confirmPw, Color redColor) {
         boolean isValidInputs = true;
         if (StringUtils.isBlank(user.getName())) {
             nameRegisterError.setText("Name should not be empty");
@@ -528,7 +543,7 @@ public class SignupPage {
             isValidInputs = false;
         }
         if (StringUtils.isNotBlank(user.getUsername())) {
-            User userFromDb = gpaDao.getUserDetailsByUsername(user.getUsername());
+            User userFromDb = gpaCalDao.getUserDetailsByUsername(user.getUsername());
             if (userFromDb != null) {
                 usernameRegisterError.setText("Provided username is already registered. Please try using another username");
                 usernameRegisterError.setForeground(redColor);
@@ -549,7 +564,7 @@ public class SignupPage {
             isValidInputs = false;
         }
         if (StringUtils.isNotBlank(user.getIndexNumber())) {
-            User userFromDb = gpaDao.getUserDetailsByIndexNumber(user.getIndexNumber());
+            User userFromDb = gpaCalDao.getUserDetailsByIndexNumber(user.getIndexNumber());
             if (userFromDb != null) {
                 indexNumberRegisterError.setText("Provided index number is already registered. Please check");
                 indexNumberRegisterError.setForeground(redColor);

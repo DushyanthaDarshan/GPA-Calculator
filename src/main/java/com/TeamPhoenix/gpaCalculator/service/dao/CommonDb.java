@@ -10,8 +10,8 @@ public class CommonDb {
 
     // Database credentials
     static final String USER = "root";
-//    static final String PASSWORD = "thurstanites4EVER";
-    static final String PASSWORD = "P@ssw0rd";
+    static final String PASSWORD = "thurstanites4EVER";
+    //static final String PASSWORD = "P@ssw0rd";
 
     public ResultSet getDataFromDb(String query) {
         Connection conn = null;
