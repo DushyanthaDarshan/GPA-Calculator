@@ -1,9 +1,12 @@
 package com.TeamPhoenix.gpaCalculator.service.manager;
 
+import com.TeamPhoenix.gpaCalculator.beans.Course;
 import com.TeamPhoenix.gpaCalculator.beans.Gpa;
 import com.TeamPhoenix.gpaCalculator.beans.PredictReportResult;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
+import com.google.gson.Gson;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.awt.BorderLayout;
@@ -11,7 +14,10 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -30,7 +36,10 @@ public class AllGpaPage {
     private JLabel sem6Gpa;
     private JLabel sem7Gpa;
     private JLabel sem8Gpa;
+    private JLabel electiveSubjectsGpa;
+    private JLabel coreSubjectsGpa;
     private Long userId;
+    private Map<String, Double> gradeWithGpvMap = new HashMap<>();
 
     GpaCalDao gpaCalDao = new GpaCalDaoImpl();
 
@@ -241,5 +250,60 @@ public class AllGpaPage {
                 }
             }
         }
+
+        gradeWithGpvMap.put("A+", 4.0);
+        gradeWithGpvMap.put("A", 4.0);
+        gradeWithGpvMap.put("A-", 3.7);
+        gradeWithGpvMap.put("B+", 3.3);
+        gradeWithGpvMap.put("B", 3.0);
+        gradeWithGpvMap.put("B-", 2.7);
+        gradeWithGpvMap.put("C+", 2.3);
+        gradeWithGpvMap.put("C", 2.0);
+        gradeWithGpvMap.put("D+", 1.7);
+        gradeWithGpvMap.put("D", 1.3);
+        gradeWithGpvMap.put("D-", 1.0);
+
+        Student studentFromDb = gpaCalDao.getUserByUserId(userId);
+        List<PredictReportResult> coreSubjectList = new ArrayList<>();
+        List<PredictReportResult> electiveSubjectList = new ArrayList<>();
+        if (studentFromDb != null) {
+            Student student = gpaCalDao.getUserCoreCourses(userId, studentFromDb.getStream(), studentFromDb.getCombination());
+            if (student != null) {
+                if (student.getSubjectList() != null) {
+                    for (Course course : student.getSubjectList()) {
+                        if (course != null) {
+                            if (course.getResult() != null) {
+                                if (course.getResult().getResultGrade() != null) {
+                                    PredictReportResult predictReportResult = new PredictReportResult();
+                                    predictReportResult.setSubjectCode(course.getCourseCode());
+                                    predictReportResult.setSubjectName(course.getCourseName());
+                                    predictReportResult.setResultGrade(course.getResult().getResultGrade());
+                                    predictReportResult.setSubjectCredit(course.getCourseCredits());
+                                    predictReportResult.setGpv(gradeWithGpvMap.get(course.getResult().getResultGrade()));
+                                    if (course.getCourseType().equals("ELECTIVE")) {
+                                        electiveSubjectList.add(predictReportResult);
+                                    } else if (course.getCourseType().equals("CORE")) {
+                                        coreSubjectList.add(predictReportResult);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        electiveSubjectsGpa.setText("Elective gpa : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
+        coreSubjectsGpa.setText("Core gpa : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
+    }
+
+    private Double calculateGpa(List<PredictReportResult> SemResults) {
+        int creditsCount = 0;
+        double multiplicationOFCreditAndGpv = 0.0;
+        for (PredictReportResult predictReportResult : SemResults) {
+            creditsCount = creditsCount + predictReportResult.getSubjectCredit();
+            multiplicationOFCreditAndGpv = multiplicationOFCreditAndGpv + (predictReportResult.getSubjectCredit() *
+                    predictReportResult.getGpv());
+        }
+        return multiplicationOFCreditAndGpv / creditsCount;
     }
 }

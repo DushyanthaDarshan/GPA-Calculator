@@ -152,4 +152,6 @@ public interface GpaCalDao {
      */
     void deleteResult(Long userId, String subjectCode);
 
+    Student getUserCoreCourses(Long userId, String degree, String combination);
+
 }
