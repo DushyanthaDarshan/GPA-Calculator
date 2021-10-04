@@ -26,7 +26,7 @@ import javax.swing.*;
  */
 
 public class AllGpaPage {
-    private JFrame frame;
+    JFrame frame;
     private JLabel OverallGPALabel;
     private JLabel sem1Gpa;
     private JLabel sem2Gpa;
@@ -188,6 +188,22 @@ public class AllGpaPage {
         sem8Gpa.setFont(new Font("Dialog", Font.PLAIN, 20));
         panel_1.add(sem8Gpa);
 
+        //Core Subject gpa related
+        coreSubjectsGpa = new JLabel("Core Subject gpa     : Not Add Yet");
+        coreSubjectsGpa.setBounds(420, 540, 500, 25);
+        coreSubjectsGpa.setForeground(new Color(255, 255, 255));
+        coreSubjectsGpa.setBackground(new Color(25, 255, 255));
+        coreSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(coreSubjectsGpa);
+
+        //Elective Subject gpa related
+        electiveSubjectsGpa = new JLabel("Elective Subject gpa : Not Add Yet");
+        electiveSubjectsGpa.setBounds(420, 580, 500, 25);
+        electiveSubjectsGpa.setForeground(new Color(255, 255, 255));
+        electiveSubjectsGpa.setBackground(new Color(25, 255, 255));
+        electiveSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(electiveSubjectsGpa);
+
         JPanel gpaPanel = new JPanel();
         gpaPanel.setBounds(500, 250, 150, 25);
         gpaPanel.setBackground(new Color(60, 63, 65));
@@ -293,7 +309,7 @@ public class AllGpaPage {
             }
         }
         electiveSubjectsGpa.setText("Elective gpa : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
-        coreSubjectsGpa.setText("Core gpa : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
+        coreSubjectsGpa.setText("Core gpa     : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
     }
 
     private Double calculateGpa(List<PredictReportResult> SemResults) {
