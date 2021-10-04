@@ -6,7 +6,6 @@ import com.TeamPhoenix.gpaCalculator.beans.PredictReportResult;
 import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
-import com.google.gson.Gson;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.awt.BorderLayout;
@@ -192,19 +191,19 @@ public class AllGpaPage {
         gpaPanel.setBounds(500, 250, 150, 25);
         gpaPanel.setBackground(new Color(60, 63, 65));
 
-        JLabel selectSemesterLable = new JLabel("");
-        selectSemesterLable.setBounds(600, 290, 120, 25);
-        selectSemesterLable.setForeground(new Color(255, 0, 0));
-        selectSemesterLable.setBackground(new Color(255, 255, 255));
-        selectSemesterLable.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(selectSemesterLable);
+        electiveSubjectsGpa = new JLabel("");
+        electiveSubjectsGpa.setBounds(420, 520, 500, 25);
+        electiveSubjectsGpa.setForeground(new Color(255, 0, 0));
+        electiveSubjectsGpa.setBackground(new Color(255, 255, 255));
+        electiveSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(electiveSubjectsGpa);
 
-        JLabel selectSubjectLable = new JLabel("");
-        selectSubjectLable.setBounds(600, 360, 120, 25);
-        selectSubjectLable.setForeground(new Color(255, 0, 0));
-        selectSubjectLable.setBackground(new Color(255, 255, 255));
-        selectSubjectLable.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(selectSubjectLable);
+        coreSubjectsGpa = new JLabel("");
+        coreSubjectsGpa.setBounds(420, 560, 500, 25);
+        coreSubjectsGpa.setForeground(new Color(255, 0, 0));
+        coreSubjectsGpa.setBackground(new Color(255, 255, 255));
+        coreSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(coreSubjectsGpa);
 
         //Main two labels
         JLabel leftSideBackground = new JLabel("");

@@ -112,24 +112,24 @@ public class LoginPage{
         passwordTextFieldLogin.setColumns(10);
 
         JButton userLoginButton = new JButton("Login");
-        userLoginButton.setBounds(630, 450, 117, 30);
+        userLoginButton.setBounds(622, 450, 117, 30);
         userLoginButton.setFont(new Font("Dialog", Font.BOLD, 16));
         userLoginButton.setForeground(Color.WHITE);
         userLoginButton.setBackground(new Color(0, 46, 98));
         panel_1.add(userLoginButton);
 
         JLabel dontHaveAnAccountPart1 = new JLabel("Don't have an account? ");
-        dontHaveAnAccountPart1.setBounds(530, 503, 200, 15);
+        dontHaveAnAccountPart1.setBounds(545, 503, 200, 15);
         dontHaveAnAccountPart1.setForeground(new Color(255, 255, 255));
         dontHaveAnAccountPart1.setBackground(new Color(255, 255, 255));
         dontHaveAnAccountPart1.setFont(new Font("Dialog", Font.PLAIN, 15));
         panel_1.add(dontHaveAnAccountPart1);
 
         JLabel dontHaveAnAccountPart2 = new JLabel("Sign Up Now ");
-        dontHaveAnAccountPart2.setBounds(716, 500, 300, 20);
+        dontHaveAnAccountPart2.setBounds(710, 500, 300, 20);
         dontHaveAnAccountPart2.setForeground(new Color(255, 255, 255));
         dontHaveAnAccountPart2.setBackground(new Color(255, 255, 255));
-        dontHaveAnAccountPart2.setFont(new Font("Dialog", Font.BOLD, 18));
+        dontHaveAnAccountPart2.setFont(new Font("Arial", Font.BOLD, 16));
         panel_1.add(dontHaveAnAccountPart2);
 
         JLabel leftSideBackground = new JLabel("");
