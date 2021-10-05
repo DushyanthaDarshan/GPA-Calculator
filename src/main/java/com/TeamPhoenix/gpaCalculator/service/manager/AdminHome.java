@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 public class AdminHome {
 
 	private JFrame frame;
+	private Long userId;
 
 	/**
 	 * Launch the application.
@@ -22,7 +23,7 @@ public class AdminHome {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminHome window = new AdminHome();
+					AdminHome window = new AdminHome(2l);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +35,8 @@ public class AdminHome {
 	/**
 	 * Create the application.
 	 */
-	public AdminHome() {
+	public AdminHome(Long userId) {
+		this.userId = userId;
 		initialize();
 	}
 
@@ -46,12 +48,14 @@ public class AdminHome {
 		frame.setBounds(100, 100, 850, 545);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
+		frame.setResizable(false);
 		
-		JLabel lbllogo = new JLabel("");
+		JLabel logoLabel = new JLabel("");
 		ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/logo.png").getImage().getScaledInstance(300, 400, Image.SCALE_DEFAULT));
-		lbllogo.setIcon(imageIcon);
-		lbllogo.setBounds(5, 41, 300, 400);
-		frame.getContentPane().add(lbllogo);
+		logoLabel.setIcon(imageIcon);
+		logoLabel.setBounds(5, 41, 300, 400);
+		frame.getContentPane().add(logoLabel);
 		
 		JLabel lblleftimage = new JLabel("");
 		lblleftimage.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -59,47 +63,47 @@ public class AdminHome {
 		lblleftimage.setBounds(0, 0, 276, 506);
 		frame.getContentPane().add(lblleftimage);
 		
-		JButton btnaddCouses = new JButton("Add Courses");
-		btnaddCouses.setBackground(Color.WHITE);
-		btnaddCouses.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnaddCouses.setForeground(Color.BLACK);
-		btnaddCouses.setBounds(435, 31, 221, 54);
-		frame.getContentPane().add(btnaddCouses);
-		
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setForeground(Color.BLACK);
 		btnLogOut.setFont(new Font("Sitka Text", Font.BOLD, 20));
 		btnLogOut.setBackground(new Color(255, 153, 204));
 		btnLogOut.setBounds(435, 418, 221, 54);
 		frame.getContentPane().add(btnLogOut);
+		btnLogOut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
+				new LoginPage();
+			}
+		});
 		
-		JButton btnupdateCourses = new JButton("Update Courses");
-		btnupdateCourses.setForeground(Color.BLACK);
-		btnupdateCourses.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnupdateCourses.setBackground(Color.WHITE);
-		btnupdateCourses.setBounds(435, 96, 221, 54);
-		frame.getContentPane().add(btnupdateCourses);
+		JButton manageCoursesBtn = new JButton("Manage Courses");
+		manageCoursesBtn.setForeground(Color.BLACK);
+		manageCoursesBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		manageCoursesBtn.setBackground(Color.WHITE);
+		manageCoursesBtn.setBounds(435, 96, 221, 54);
+		frame.getContentPane().add(manageCoursesBtn);
+		manageCoursesBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
+				new ManageCourses(userId);
+			}
+		});
 		
-		JButton btnDeleteCourses = new JButton("Delete Courses");
-		btnDeleteCourses.setForeground(Color.BLACK);
-		btnDeleteCourses.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnDeleteCourses.setBackground(Color.WHITE);
-		btnDeleteCourses.setBounds(435, 158, 221, 54);
-		frame.getContentPane().add(btnDeleteCourses);
-		
-		JButton btnViewAllStudents = new JButton("View all Students");
+		JButton btnViewAllStudents = new JButton("Manage Students");
 		btnViewAllStudents.setForeground(Color.BLACK);
 		btnViewAllStudents.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		btnViewAllStudents.setBackground(Color.WHITE);
-		btnViewAllStudents.setBounds(435, 223, 221, 54);
+		btnViewAllStudents.setBounds(435, 200, 221, 54);
 		frame.getContentPane().add(btnViewAllStudents);
-		
-		JButton btnDeleteStudents = new JButton("Delete Students");
-		btnDeleteStudents.setForeground(Color.BLACK);
-		btnDeleteStudents.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnDeleteStudents.setBackground(Color.WHITE);
-		btnDeleteStudents.setBounds(435, 288, 221, 54);
-		frame.getContentPane().add(btnDeleteStudents);
+		btnViewAllStudents.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
+				new ManageStudents(userId);
+			}
+		});
 		
 		JButton btnMyAccount = new JButton("My account");
 		btnMyAccount.setForeground(Color.BLACK);
@@ -107,6 +111,13 @@ public class AdminHome {
 		btnMyAccount.setBackground(new Color(255, 153, 204));
 		btnMyAccount.setBounds(435, 353, 221, 54);
 		frame.getContentPane().add(btnMyAccount);
+		btnMyAccount.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
+				new AdminMyAccount(userId);
+			}
+		});
 		
 		JLabel lblrightimage = new JLabel("");
 		lblrightimage.setFont(new Font("Monotype Corsiva", Font.PLAIN, 17));

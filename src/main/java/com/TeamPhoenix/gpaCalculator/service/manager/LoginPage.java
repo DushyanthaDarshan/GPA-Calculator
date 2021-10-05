@@ -161,7 +161,7 @@ public class LoginPage{
                     if (student.getUserType().equals("STUDENT")) {
                         new HomePage(student.getUserId());
                     } else {
-                        //TODO - connect admin home page
+                        new AdminHome(student.getUserId());
                     }
                 }
 
