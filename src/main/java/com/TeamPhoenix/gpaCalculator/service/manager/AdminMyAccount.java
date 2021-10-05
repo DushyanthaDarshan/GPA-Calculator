@@ -219,11 +219,15 @@ public class AdminMyAccount {
         rightSideBackground.setBounds(0, 0, 400, 750);
         frame.getContentPane().add(rightSideBackground);
 
+        Student userFromDb = gpaCalDao.getUserDetailsByUserId(userId);
+        nameTextFieldRegister.setText(userFromDb.getName());
+
         updateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GpaCalDao gpaCalDao = new GpaCalDaoImpl();
                 Student userFromDb = gpaCalDao.getUserDetailsByUserId(userId);
+
+                nameTextFieldRegister.setText(userFromDb.getName());
 
                 String name = nameTextFieldRegister.getText();
                 String oldPw = oldPwTextField.getText();
