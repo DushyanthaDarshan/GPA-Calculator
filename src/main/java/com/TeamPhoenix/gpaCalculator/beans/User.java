@@ -1,6 +1,11 @@
 package com.TeamPhoenix.gpaCalculator.beans;
 
-public class User extends MetaData{
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.io.Serializable;
+
+public class User extends MetaData implements Serializable {
 
     private Long userId;
     private String username;
@@ -82,5 +87,36 @@ public class User extends MetaData{
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(userId, user.userId).append(username, user.username).append(indexNumber, user.indexNumber).append(name, user.name).append(password, user.password).append(batch, user.batch).append(stream, user.stream).append(combination, user.combination).append(degree, user.degree).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(userId).append(username).append(indexNumber).append(name).append(password).append(batch).append(stream).append(combination).append(degree).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", indexNumber='" + indexNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", batch='" + batch + '\'' +
+                ", stream='" + stream + '\'' +
+                ", combination='" + combination + '\'' +
+                ", degree='" + degree + '\'' +
+                "} " + super.toString();
     }
 }

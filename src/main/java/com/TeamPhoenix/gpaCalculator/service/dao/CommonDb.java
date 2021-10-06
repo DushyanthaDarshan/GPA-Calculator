@@ -2,7 +2,7 @@ package com.TeamPhoenix.gpaCalculator.service.dao;
 
 import java.sql.*;
 
-public class Common {
+public class CommonDb {
 
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -33,5 +33,26 @@ public class Common {
         }
 
         return rs;
+    }
+
+    public void saveDataToDb(String query) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //Register JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+
+            //Execute a query
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException | ClassNotFoundException se) {
+            se.printStackTrace();
+        }
     }
 }

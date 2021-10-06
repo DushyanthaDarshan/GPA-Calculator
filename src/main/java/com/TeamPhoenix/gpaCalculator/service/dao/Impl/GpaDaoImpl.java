@@ -1,7 +1,7 @@
 package com.TeamPhoenix.gpaCalculator.service.dao.Impl;
 
 import com.TeamPhoenix.gpaCalculator.beans.User;
-import com.TeamPhoenix.gpaCalculator.service.dao.Common;
+import com.TeamPhoenix.gpaCalculator.service.dao.CommonDb;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaDao;
 
 import java.sql.ResultSet;
@@ -9,20 +9,52 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GpaDaoImpl extends Common implements GpaDao {
+public class GpaDaoImpl extends CommonDb implements GpaDao {
 
-    Common common = new Common();
+    CommonDb commonDb = new CommonDb();
 
     @Override
-    public User getUserDetails(String username) {
+    public User getUserDetailsByUsername(String username) {
 
-        String query = "SELECT USER_ID, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
+        String query = "SELECT USER_ID, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USERNAME='" + username + "'";
 
-        ResultSet resultSet = common.getDataFromDb(query);
-        User user = null;
+        ResultSet resultSet = commonDb.getDataFromDb(query);
         List<User> userList = new ArrayList<>();
         populateUser(resultSet, userList);
-        return userList.get(0);
+
+        User user = null;
+        if (userList.size() != 0) {
+            user = userList.get(0);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getUserDetailsByIndexNumber(String indexNumber) {
+        String query = "SELECT USER_ID, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE INDEX_NUMBER='" + indexNumber + "'";
+
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<User> userList = new ArrayList<>();
+        populateUser(resultSet, userList);
+
+        User user = null;
+        if (userList.size() != 0) {
+            user = userList.get(0);
+        }
+
+        return user;
+    }
+
+    @Override
+    public void saveUserDetails(User user) {
+
+        String query = "INSERT INTO USER (NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, USER_STATUS) " +
+                "VALUES ('" + user.getName() + "', '" + user.getIndexNumber() + "', '" + user.getBatch() + "', '" + user.getPassword() +
+                "', '" + user.getUsername() + "', '" + user.getStream() + "', '" + user.getCombination() + "', '" + user.getDegree() +
+                "', '" + user.getStatus() + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
     }
 
     private void populateUser(ResultSet resultSet, List<User> userList) {
