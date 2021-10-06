@@ -6,7 +6,6 @@ import com.TeamPhoenix.gpaCalculator.beans.PredictReportResult;
 import com.TeamPhoenix.gpaCalculator.beans.Student;
 import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
 import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
-import com.google.gson.Gson;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.awt.BorderLayout;
@@ -14,6 +13,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ import javax.swing.*;
  */
 
 public class AllGpaPage {
-    JFrame frame;
+    private JFrame frame;
     private JLabel OverallGPALabel;
     private JLabel sem1Gpa;
     private JLabel sem2Gpa;
@@ -105,19 +106,19 @@ public class AllGpaPage {
         leftSideApplicationName.setIcon(imageIcon);
         leftSideApplicationName.setFont(new Font("Dialog", Font.BOLD, 22));
         leftSideApplicationName.setHorizontalAlignment(SwingConstants.CENTER);
-        leftSideApplicationName.setBounds(20, 77, 400, 600);
+        leftSideApplicationName.setBounds(10, 77, 400, 600);
         panel_1.add(leftSideApplicationName);
 
         //name related
-        JLabel nameLabel = new JLabel("GPA TYPES WITH VALUES");
-        nameLabel.setBounds(450, 63, 500, 30);
+        JLabel nameLabel = new JLabel("Semester wise GPA");
+        nameLabel.setBounds(500, 63, 500, 30);
         nameLabel.setForeground(new Color(255, 255, 255));
         nameLabel.setBackground(new Color(255, 255, 255));
         nameLabel.setFont(new Font("Dialog", Font.BOLD, 30));
         panel_1.add(nameLabel);
 
         //Overall GPA related
-        OverallGPALabel = new JLabel("Overall GPA : Not Add Yet");
+        OverallGPALabel = new JLabel("Overall GPA : Not Added Yet");
         OverallGPALabel.setBounds(420, 160, 500, 25);
         OverallGPALabel.setForeground(new Color(255, 255, 255));
         OverallGPALabel.setBackground(new Color(25, 255, 255));
@@ -125,7 +126,7 @@ public class AllGpaPage {
         panel_1.add(OverallGPALabel);
 
         //sem 1 GPA related
-        sem1Gpa = new JLabel("Sem 1 gpa   : Not Add Yet");
+        sem1Gpa = new JLabel("Sem 1 GPA   : Not Added Yet");
         sem1Gpa.setBounds(420, 200, 500, 25);
         sem1Gpa.setForeground(new Color(255, 255, 255));
         sem1Gpa.setBackground(new Color(25, 255, 255));
@@ -133,7 +134,7 @@ public class AllGpaPage {
         panel_1.add(sem1Gpa);
 
         //sem 2 GPA related
-        sem2Gpa = new JLabel("Sem 2 gpa   : Not Add Yet");
+        sem2Gpa = new JLabel("Sem 2 GPA   : Not Added Yet");
         sem2Gpa.setBounds(420, 240, 500, 25);
         sem2Gpa.setForeground(new Color(255, 255, 255));
         sem2Gpa.setBackground(new Color(25, 255, 255));
@@ -141,7 +142,7 @@ public class AllGpaPage {
         panel_1.add(sem2Gpa);
 
         //sem 3 GPA related
-        sem3Gpa = new JLabel("Sem 3 gpa   : Not Add Yet");
+        sem3Gpa = new JLabel("Sem 3 GPA   : Not Added Yet");
         sem3Gpa.setBounds(420, 280, 500, 25);
         sem3Gpa.setForeground(new Color(255, 255, 255));
         sem3Gpa.setBackground(new Color(25, 255, 255));
@@ -149,7 +150,7 @@ public class AllGpaPage {
         panel_1.add(sem3Gpa);
 
         //sem 4 GPA related
-        sem4Gpa = new JLabel("Sem 4 gpa   : Not Add Yet");
+        sem4Gpa = new JLabel("Sem 4 GPA   : Not Added Yet");
         sem4Gpa.setBounds(420, 320, 500, 25);
         sem4Gpa.setForeground(new Color(255, 255, 255));
         sem4Gpa.setBackground(new Color(25, 255, 255));
@@ -157,7 +158,7 @@ public class AllGpaPage {
         panel_1.add(sem4Gpa);
 
         //sem 5 GPA related
-        sem5Gpa = new JLabel("Sem 5 gpa   : Not Add Yet");
+        sem5Gpa = new JLabel("Sem 5 GPA   : Not Added Yet");
         sem5Gpa.setBounds(420, 360, 500, 25);
         sem5Gpa.setForeground(new Color(255, 255, 255));
         sem5Gpa.setBackground(new Color(25, 255, 255));
@@ -165,7 +166,7 @@ public class AllGpaPage {
         panel_1.add(sem5Gpa);
 
         //sem 6 GPA related
-        sem6Gpa = new JLabel("Sem 6 gpa   : Not Add Yet");
+        sem6Gpa = new JLabel("Sem 6 GPA   : Not Added Yet");
         sem6Gpa.setBounds(420, 400, 500, 25);
         sem6Gpa.setForeground(new Color(255, 255, 255));
         sem6Gpa.setBackground(new Color(25, 255, 255));
@@ -173,7 +174,7 @@ public class AllGpaPage {
         panel_1.add(sem6Gpa);
 
         //sem 7 GPA related
-        sem7Gpa = new JLabel("Sem 7 gpa   : Not Add Yet");
+        sem7Gpa = new JLabel("Sem 7 GPA   : Not Added Yet");
         sem7Gpa.setBounds(420, 440, 500, 25);
         sem7Gpa.setForeground(new Color(255, 255, 255));
         sem7Gpa.setBackground(new Color(25, 255, 255));
@@ -181,46 +182,44 @@ public class AllGpaPage {
         panel_1.add(sem7Gpa);
 
         //sem 8 GPA related
-        sem8Gpa = new JLabel("Sem 8 gpa   : Not Add Yet");
+        sem8Gpa = new JLabel("Sem 8 GPA   : Not Added Yet");
         sem8Gpa.setBounds(420, 480, 500, 25);
         sem8Gpa.setForeground(new Color(255, 255, 255));
         sem8Gpa.setBackground(new Color(25, 255, 255));
         sem8Gpa.setFont(new Font("Dialog", Font.PLAIN, 20));
         panel_1.add(sem8Gpa);
 
-        //Core Subject gpa related
-        coreSubjectsGpa = new JLabel("Core Subject gpa     : Not Add Yet");
-        coreSubjectsGpa.setBounds(420, 540, 500, 25);
-        coreSubjectsGpa.setForeground(new Color(255, 255, 255));
-        coreSubjectsGpa.setBackground(new Color(25, 255, 255));
-        coreSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(coreSubjectsGpa);
-
-        //Elective Subject gpa related
-        electiveSubjectsGpa = new JLabel("Elective Subject gpa : Not Add Yet");
-        electiveSubjectsGpa.setBounds(420, 580, 500, 25);
-        electiveSubjectsGpa.setForeground(new Color(255, 255, 255));
-        electiveSubjectsGpa.setBackground(new Color(25, 255, 255));
-        electiveSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(electiveSubjectsGpa);
+        JButton homeBtn = new JButton("Home Page");
+        homeBtn.setForeground(Color.BLACK);
+        homeBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+        homeBtn.setBackground(new Color(239, 199, 68));
+        homeBtn.setBounds(600, 620, 150, 30);
+        panel_1.add(homeBtn);
+        homeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new HomePage(userId);
+                frame.dispose();
+            }
+        });
 
         JPanel gpaPanel = new JPanel();
         gpaPanel.setBounds(500, 250, 150, 25);
         gpaPanel.setBackground(new Color(60, 63, 65));
 
-        JLabel selectSemesterLable = new JLabel("");
-        selectSemesterLable.setBounds(600, 290, 120, 25);
-        selectSemesterLable.setForeground(new Color(255, 0, 0));
-        selectSemesterLable.setBackground(new Color(255, 255, 255));
-        selectSemesterLable.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(selectSemesterLable);
+        electiveSubjectsGpa = new JLabel("");
+        electiveSubjectsGpa.setBounds(420, 520, 500, 25);
+        electiveSubjectsGpa.setForeground(new Color(255, 0, 0));
+        electiveSubjectsGpa.setBackground(new Color(255, 255, 255));
+        electiveSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(electiveSubjectsGpa);
 
-        JLabel selectSubjectLable = new JLabel("");
-        selectSubjectLable.setBounds(600, 360, 120, 25);
-        selectSubjectLable.setForeground(new Color(255, 0, 0));
-        selectSubjectLable.setBackground(new Color(255, 255, 255));
-        selectSubjectLable.setFont(new Font("Dialog", Font.PLAIN, 20));
-        panel_1.add(selectSubjectLable);
+        coreSubjectsGpa = new JLabel("");
+        coreSubjectsGpa.setBounds(420, 560, 500, 25);
+        coreSubjectsGpa.setForeground(new Color(255, 0, 0));
+        coreSubjectsGpa.setBackground(new Color(255, 255, 255));
+        coreSubjectsGpa.setFont(new Font("Dialog", Font.PLAIN, 20));
+        panel_1.add(coreSubjectsGpa);
 
         //Main two labels
         JLabel leftSideBackground = new JLabel("");
@@ -247,21 +246,21 @@ public class AllGpaPage {
                     if (gpaType.equals("OVERALL")) {
                         OverallGPALabel.setText("Overall GPA : " + gpa.getGpa());
                     } else if (gpaType.equals("sem1")) {
-                        sem1Gpa.setText("Sem 1 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 1 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem2")) {
-                        sem1Gpa.setText("Sem 2 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 2 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem3")) {
-                        sem1Gpa.setText("Sem 3 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 3 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem4")) {
-                        sem1Gpa.setText("Sem 4 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 4 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem5")) {
-                        sem1Gpa.setText("Sem 5 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 5 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem6")) {
-                        sem1Gpa.setText("Sem 6 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 6 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem7")) {
-                        sem1Gpa.setText("Sem 7 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 7 GPA   : " + gpa.getGpa());
                     } else if (gpaType.equals("sem8")) {
-                        sem1Gpa.setText("Sem 8 gpa   : " + gpa.getGpa());
+                        sem1Gpa.setText("Sem 8 GPA   : " + gpa.getGpa());
                     }
                 }
             }
@@ -308,8 +307,8 @@ public class AllGpaPage {
                 }
             }
         }
-        electiveSubjectsGpa.setText("Elective gpa : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
-        coreSubjectsGpa.setText("Core gpa     : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
+        electiveSubjectsGpa.setText("Elective GPA : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
+        coreSubjectsGpa.setText("Core GPA      : " + Math.round(calculateGpa(electiveSubjectList) * 100.0) / 100.0);
     }
 
     private Double calculateGpa(List<PredictReportResult> SemResults) {
