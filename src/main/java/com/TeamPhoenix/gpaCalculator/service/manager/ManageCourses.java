@@ -280,11 +280,32 @@ public class ManageCourses {
                         table.setValueAt(newName, row, column);
                     }
                 }
-                if (newCredits != null || newName != null) {
+                if (newCredits != null && newName != null) {
                     Course courseFromDb = gpaCalDao.getCourseByCode((String) table.getValueAt(row, 0));
                     Course course = new Course();
                     course.setCourseName(newName);
                     course.setCourseCredits(newCredits);
+                    course.setSubjectBaseCategoryId(courseFromDb.getSubjectBaseCategoryId());
+                    course.setCourseCode(courseFromDb.getCourseCode());
+                    course.setCourseId(courseFromDb.getCourseId());
+                    gpaCalDao.updateCourse(course);
+                    populateAlreadyAddedCourses();
+                } else if (newCredits != null) {
+                    Course courseFromDb = gpaCalDao.getCourseByCode((String) table.getValueAt(row, 0));
+                    Course course = new Course();
+                    course.setCourseName(courseFromDb.getCourseName());
+                    course.setCourseCredits(newCredits);
+                    course.setSubjectBaseCategoryId(courseFromDb.getSubjectBaseCategoryId());
+                    course.setCourseCode(courseFromDb.getCourseCode());
+                    course.setCourseId(courseFromDb.getCourseId());
+                    gpaCalDao.updateCourse(course);
+                    populateAlreadyAddedCourses();
+                } else if (newName != null) {
+                    Course courseFromDb = gpaCalDao.getCourseByCode((String) table.getValueAt(row, 0));
+                    Course course = new Course();
+                    course.setCourseName(newName);
+                    course.setCourseCredits(courseFromDb.getCourseCredits());
+                    course.setSubjectBaseCategoryId(courseFromDb.getSubjectBaseCategoryId());
                     course.setCourseCode(courseFromDb.getCourseCode());
                     course.setCourseId(courseFromDb.getCourseId());
                     gpaCalDao.updateCourse(course);
