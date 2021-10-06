@@ -102,6 +102,7 @@ public class HomePage {
 		btnsem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 1);
 			}
 		});
@@ -114,6 +115,7 @@ public class HomePage {
 		btnsem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 2);
 			}
 		});
@@ -126,6 +128,7 @@ public class HomePage {
 		btnSem3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 3);
 			}
 		});
@@ -138,6 +141,7 @@ public class HomePage {
 		btnSem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 4);
 			}
 		});
@@ -151,6 +155,7 @@ public class HomePage {
 		btnSem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 5);
 			}
 		});
@@ -163,6 +168,7 @@ public class HomePage {
 		btnSem6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 6);
 			}
 		});
@@ -175,6 +181,7 @@ public class HomePage {
 		btnSem7.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 7);
 			}
 		});
@@ -187,6 +194,7 @@ public class HomePage {
 		btnSem8.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new SemesterGpa(userId, 8);
 			}
 		});
@@ -208,6 +216,7 @@ public class HomePage {
 		btnprediction.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new AddSubjectsForNextSem(userId);
 			}
 		});
@@ -221,6 +230,7 @@ public class HomePage {
 		btnAllGpaPage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
+				frame.dispose();
 				new AllGpaPage(userId);
 			}
 		});
