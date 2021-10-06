@@ -79,10 +79,10 @@ public class HomePage {
 
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setBackground(Color.WHITE);
-		btnLogOut.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnLogOut.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLogOut.setForeground(new Color(255, 255, 255));
-		btnLogOut.setBackground(new Color(238, 39, 39));
-		btnLogOut.setBounds(797, 34, 137, 46);
+		btnLogOut.setBackground(new Color(194, 54, 44));
+		btnLogOut.setBounds(815, 34, 100, 30);
 		frame.getContentPane().add(btnLogOut);
 		btnLogOut.addActionListener(new ActionListener() {
 			@Override
@@ -201,6 +201,8 @@ public class HomePage {
 		JButton btnprediction = new JButton("Prediction");
 		btnprediction.setBackground(Color.WHITE);
 		btnprediction.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnprediction.setBackground(new Color(225, 177, 44));
+
 		btnprediction.setBounds(470, 438, 137, 46);
 		frame.getContentPane().add(btnprediction);
 		btnprediction.addActionListener(new ActionListener() {
@@ -213,6 +215,7 @@ public class HomePage {
 		JButton btnAllGpaPage = new JButton("All GPAs");
 		btnAllGpaPage.setBackground(Color.WHITE);
 		btnAllGpaPage.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnAllGpaPage.setBackground(new Color(225, 177, 44));
 		btnAllGpaPage.setBounds(635, 438, 137, 46);
 		frame.getContentPane().add(btnAllGpaPage);
 		btnAllGpaPage.addActionListener(new ActionListener() {
@@ -253,7 +256,10 @@ public class HomePage {
 	private void populateOverallGpa() {
 		Gpa gpaFromDb = gpaCalDao.getOverallGpa(userId, "OVERALL");
 		if (gpaFromDb != null) {
-			lblOverallGpa.setText("Overall GPA = " + gpaFromDb.getGpa());
+			lblOverallGpa.setText("Your Overall GPA = " + gpaFromDb.getGpa());
+			lblOverallGpa.setFont(new Font("Arial", Font.BOLD, 25));
+			lblOverallGpa.setForeground(new Color(225, 177, 44));
+			lblOverallGpa.setBounds(370, 176, 500, 33);
 		}
 	}
 }

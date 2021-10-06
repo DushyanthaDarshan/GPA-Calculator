@@ -70,7 +70,7 @@ public class SemesterGpa {
 
 		JLabel semesterNumberLabel = new JLabel("Semester " + semNumber);
 		semesterNumberLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
-		semesterNumberLabel.setBounds(359, 13, 300, 40);
+		semesterNumberLabel.setBounds(420, 13, 300, 40);
 		semesterNumberLabel.setForeground(new Color(255, 255, 255));
 		semesterNumberLabel.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(semesterNumberLabel);
@@ -84,37 +84,46 @@ public class SemesterGpa {
 
 		Gpa overallSemGpa = gpaCalDao.getOverallGpa(userId, "sem" + semNumber);
 		if (overallSemGpa != null) {
-			semesterOverallGpa.setText("Semester " + semNumber + " Gpa = " + overallSemGpa.getGpa());
+			semesterOverallGpa.setText("Your GPA for Semester " + semNumber + " = " + overallSemGpa.getGpa());
+			semesterOverallGpa.setFont(new Font("Arial", Font.BOLD, 16));
+			semesterOverallGpa.setForeground(new Color(225, 177, 44));
 		}
 
-		JLabel courseUnit = new JLabel("Course unit");
-		courseUnit.setBounds(54, 120, 83, 16);
+		JLabel addNewResultLabel = new JLabel("Add a new result");
+		addNewResultLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		addNewResultLabel.setBounds(104, 110, 300, 23);
+		addNewResultLabel.setForeground(new Color(72, 126, 176));
+		frame.getContentPane().add(addNewResultLabel);
+
+		JLabel courseUnit = new JLabel("Course Code");
+		courseUnit.setBounds(104, 149, 90, 16);
 		courseUnit.setForeground(new Color(255, 255, 255));
 		courseUnit.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(courseUnit);
 
 		JLabel gradeLabel = new JLabel("Grade");
-		gradeLabel.setBounds(209, 120, 56, 16);
+		gradeLabel.setBounds(300, 149, 56, 16);
 		gradeLabel.setForeground(new Color(255, 255, 255));
 		gradeLabel.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(gradeLabel);
 
 		model = new DefaultTableModel();
-		model.addColumn("Course Unit");
+		model.addColumn("Course Code");
 		model.addColumn("Course Name");
 		model.addColumn("Result");
+		//Color ivory=new Color(255,255,208);
 
 		comboBox_1 = new JComboBox(populateAllCoursesForSem().toArray());
-		comboBox_1.setBounds(54, 149, 100, 22);
+		comboBox_1.setBounds(200, 149, 90, 22);
 		frame.getContentPane().add(comboBox_1);
 
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Select", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"}));
-		comboBox_2.setBounds(209, 149, 86, 22);
+		comboBox_2.setBounds(350, 149, 86, 22);
 		frame.getContentPane().add(comboBox_2);
 
 		JButton addButton = new JButton("ADD");
-		addButton.setBounds(482, 148, 97, 25);
+		addButton.setBounds(502, 148, 97, 25);
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -154,7 +163,7 @@ public class SemesterGpa {
 		frame.getContentPane().add(addButton);
 
 		JButton btnCalculate = new JButton("CALCULATE");
-		btnCalculate.setBounds(600, 148, 140, 25);
+		btnCalculate.setBounds(615, 148, 140, 25);
 		btnCalculate.setBackground(new Color(203, 165, 39, 249));
 		btnCalculate.addActionListener(new ActionListener() {
 			@Override
@@ -218,18 +227,47 @@ public class SemesterGpa {
 		});
 		frame.getContentPane().add(btnDelete);
 
+		JButton homeBtn = new JButton("Home Page");
+		homeBtn.setForeground(Color.BLACK);
+		homeBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		homeBtn.setBackground(new Color(239, 199, 68));
+		homeBtn.setBounds(250, 650, 150, 30);
+		frame.getContentPane().add(homeBtn);
+		homeBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				new HomePage(userId);
+				frame.dispose();
+			}
+		});
+
+		JButton backBtn = new JButton("Next");
+		backBtn.setForeground(Color.BLACK);
+		backBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		backBtn.setBackground(new Color(239, 108, 68));
+		backBtn.setBounds(630, 650, 100, 30);
+		frame.getContentPane().add(backBtn);
+		backBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				new SemesterGpa(userId, semNumber + 1);
+				frame.dispose();
+			}
+		});
+
 		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Courses with Results", TitledBorder.CENTER, TitledBorder.TOP));
-		panel.setBounds(50, 200, 900, 500);
+		//panel.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Courses with Results", TitledBorder.CENTER, TitledBorder.TOP));
+		panel.setBounds(240, 230, 500, 400);
+		panel.setBackground(new Color(0, 46, 98));
 
 		populateAlreadyAddedSem();
 
 		table = new JTable(model);
 		TableColumnModel columnModel = table.getColumnModel();
 		table.setRowHeight(30);
-		columnModel.getColumn(0).setPreferredWidth(200);
-		columnModel.getColumn(1).setPreferredWidth(400);
-		columnModel.getColumn(2).setPreferredWidth(200);
+		columnModel.getColumn(0).setPreferredWidth(300);
+		columnModel.getColumn(1).setPreferredWidth(500);
+		columnModel.getColumn(2).setPreferredWidth(300);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );

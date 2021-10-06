@@ -152,6 +152,71 @@ public interface GpaCalDao {
      */
     void deleteResult(Long userId, String subjectCode);
 
+    /**
+     * The method to get user core subjects
+     *
+     * @param userId
+     * @param degree
+     * @param combination
+     * @return
+     */
     Student getUserCoreCourses(Long userId, String degree, String combination);
 
+    /**
+     * The method to save subject
+     *
+     * @param course
+     */
+    void saveCourse(Course course);
+
+    /**
+     * The method to get course
+     *
+     * @param code
+     * @return
+     */
+    Course getCourseByCode(String code);
+
+    /**
+     * The method to delete course
+     *
+     * @param code
+     */
+    void deleteCourse(String code);
+
+    /**
+     * The method to update course
+     *
+     * @param course
+     */
+    void updateCourse(Course course);
+
+    /**
+     * The method to get all students
+     *
+     * @return
+     */
+    List<Student> getAllStudents();
+
+    /**
+     * The method to delete user
+     *
+     * @param userName
+     */
+    void deleteStudent(String userName);
+
+    /**
+     * The method to get user details from database by user Id
+     *
+     * @param userId
+     * @return
+     */
+    Student getUserDetailsByUserId(Long userId);
+
+    /**
+     * The method to update user
+     *
+     * @param student
+     */
+    void updateUser(Student student);
 }

@@ -63,9 +63,9 @@ public class AddSubjectsForNextSem {
 
         populateUserNextSemesterNumber();
 
-        JLabel semesterNumberLabel = new JLabel("Semester " + semNumber);
+        JLabel semesterNumberLabel = new JLabel("Add Your Courses for Semester " + semNumber);
         semesterNumberLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
-        semesterNumberLabel.setBounds(359, 13, 300, 40);
+        semesterNumberLabel.setBounds(300, 25, 600, 40);
         semesterNumberLabel.setForeground(new Color(255, 255, 255));
         semesterNumberLabel.setBackground(new Color(255, 255, 255));
         frame.getContentPane().add(semesterNumberLabel);
@@ -86,7 +86,7 @@ public class AddSubjectsForNextSem {
         frame.getContentPane().add(comboBox_1);
 
         JButton addButton = new JButton("ADD");
-        addButton.setBounds(482, 148, 97, 25);
+        addButton.setBounds(700, 148, 97, 25);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -136,7 +136,8 @@ public class AddSubjectsForNextSem {
         frame.add(panel);
 
         JButton btnDelete = new JButton("DELETE");
-        btnDelete.setBounds(763, 148, 97, 25);
+        btnDelete.setBounds(800, 148, 97, 25);
+        btnDelete.setBackground(new Color(194, 54, 44));
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -152,8 +153,10 @@ public class AddSubjectsForNextSem {
         });
         frame.getContentPane().add(btnDelete);
 
-        JButton btnNextPage = new JButton("To Prediction Page");
-        btnNextPage.setBounds(400, 600, 180, 25);
+        JButton btnNextPage = new JButton("Predict");
+        btnNextPage.setBounds(500, 600, 200, 30);
+        btnNextPage.setFont(new Font("Sitka Text", Font.BOLD, 18));
+        btnNextPage.setBackground(new Color(203, 165, 39, 249));
         btnNextPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -162,6 +165,20 @@ public class AddSubjectsForNextSem {
             }
         });
         frame.getContentPane().add(btnNextPage);
+
+        JButton backBtn = new JButton("Back");
+        backBtn.setForeground(Color.BLACK);
+        backBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+        backBtn.setBackground(new Color(239, 108, 68));
+        backBtn.setBounds(250, 600, 100, 30);
+        frame.getContentPane().add(backBtn);
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new HomePage(userId);
+                frame.dispose();
+            }
+        });
 
         JLabel rightSideBackground = new JLabel("");
         rightSideBackground.setIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/right_side_signup_page.jpg"));

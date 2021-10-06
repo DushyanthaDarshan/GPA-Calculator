@@ -89,9 +89,9 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     @Override
     public void saveUserDetails(Student student) {
         String query = "INSERT INTO USER (NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, " +
-                "USER_STATUS, USER_CREATED_TS) VALUES ('" + student.getName() + "', '" + student.getIndexNumber() + "', '" +
+                "USER_STATUS, USER_TYPE) VALUES ('" + student.getName() + "', '" + student.getIndexNumber() + "', '" +
                 student.getBatch() + "', '" + student.getPassword() + "', '" + student.getUsername() + "', '" + student.getStream() +
-                "', '" + student.getCombination() + "', '" + student.getDegree() + "', '" + student.getStatus() + "', '" + student.getCreatedTs() + "')";
+                "', '" + student.getCombination() + "', '" + student.getDegree() + "', '" + student.getStatus() + "', '" + student.getUserType() + "')";
         System.out.println(query);
         commonDb.saveDataToDb(query);
     }
@@ -313,6 +313,97 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
         return student;
     }
 
+    @Override
+    public void saveCourse(Course course) {
+        String query = "INSERT INTO SUBJECT (SUBJECT_NAME, SUBJECT_BASE_CATEGORY_ID, SUBJECT_CODE, SUBJECT_CREDITS, " +
+                "SEMESTER_NUMBER) VALUES ('" + course.getCourseName() + "', '" + course.getSubjectBaseCategoryId() + "', '" +
+                course.getCourseCode() + "', '" + course.getCourseCredits() + "', '" + course.getSemesterNumber() + "')";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public Course getCourseByCode(String code) {
+        String query = "SELECT SUBJECT_ID, SUBJECT_NAME, SUBJECT_BASE_CATEGORY_ID, SUBJECT_CODE, SUBJECT_TYPE, SUBJECT_CREDITS, " +
+                "SEMESTER_NUMBER, SUBJECT_STATUS, SUBJECT_CREATED_TS FROM SUBJECT WHERE SUBJECT_CODE='" + code + "'";
+
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<Course> courseList = new ArrayList<>();
+        populateSubject(resultSet, courseList);
+
+        Course course = null;
+        if (courseList.isEmpty()) {
+            System.err.println(NO_OBJECT_FOUND);
+        } else if (courseList.size() == 1) {
+            course = courseList.get(0);
+        } else {
+            System.err.println(MULTIPLE_OBJECTS_FOUND);
+        }
+
+        return course;
+    }
+
+    @Override
+    public void deleteCourse(String code) {
+        String query = "DELETE FROM SUBJECT WHERE SUBJECT_CODE='" + code + "'";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public void updateCourse(Course course) {
+        String query = "UPDATE SUBJECT SET SUBJECT_NAME='" + course.getCourseName() + "', SUBJECT_BASE_CATEGORY_ID='" +
+                course.getSubjectBaseCategoryId() + "', SUBJECT_CODE='" + course.getCourseCode() + "', SUBJECT_CREDITS='" +
+                course.getCourseCredits() + "' WHERE SUBJECT_ID='" + course.getCourseId() + "'";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        String query = "SELECT USER_ID, USER_TYPE, NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, " +
+                "USER_STATUS, USER_CREATED_TS FROM USER";
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<Student> studentList = new ArrayList<>();
+        populateAllUser(resultSet, studentList);
+        return studentList;
+    }
+
+    @Override
+    public void deleteStudent(String userName) {
+        String query = "DELETE FROM USER WHERE USERNAME='" + userName + "'";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
+    @Override
+    public Student getUserDetailsByUserId(Long userId) {
+        String query = "SELECT USER_ID, USER_TYPE, INDEX_NUMBER, NAME, BATCH, PASSWORD, USERNAME, STREAM FROM USER WHERE USER_ID='" + userId + "'";
+
+        ResultSet resultSet = commonDb.getDataFromDb(query);
+        List<Student> studentList = new ArrayList<>();
+        populateUser(resultSet, studentList);
+
+        Student student = null;
+        if (studentList.isEmpty()) {
+            System.err.println(NO_OBJECT_FOUND);
+        } else if (studentList.size() == 1) {
+            student = studentList.get(0);
+        } else {
+            System.err.println(MULTIPLE_OBJECTS_FOUND);
+        }
+
+        return student;
+    }
+
+    @Override
+    public void updateUser(Student student) {
+        String query = "UPDATE USER SET NAME='" + student.getName() + "', BATCH='" + student.getBatch() + "', PASSWORD='" +
+                student.getPassword() + "', DEGREE='" + student.getDegree() + "' WHERE USER_ID='" + student.getUserId() + "'";
+        System.out.println(query);
+        commonDb.saveDataToDb(query);
+    }
+
     private void populateUser(ResultSet resultSet, List<Student> studentList) {
         try {
             while (resultSet.next()) {
@@ -469,6 +560,30 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
             course.setCreatedTs(resultSet.getTimestamp(DbConstants.SUBJECT_CREATED_TS));
             student.getSubjectList().add(course);
             subjectIds.add(subjectId);
+        }
+    }
+
+    private void populateAllUser(ResultSet resultSet, List<Student> studentList) {
+        try {
+            while (resultSet.next()) {
+                Student student = new Student();
+                student.setUserId(resultSet.getLong(DbConstants.USER_ID));
+                student.setName(resultSet.getString(DbConstants.NAME));
+                student.setUserType(resultSet.getString(DbConstants.USER_TYPE));
+                student.setBatch(resultSet.getString(DbConstants.BATCH));
+                student.setCombination(resultSet.getString(DbConstants.COMBINATION));
+                student.setDegree(resultSet.getString(DbConstants.DEGREE));
+                student.setIndexNumber(resultSet.getString(DbConstants.INDEX_NUMBER));
+                student.setIndexNumber(resultSet.getString(DbConstants.INDEX_NUMBER));
+                student.setPassword(resultSet.getString(DbConstants.PASSWORD));
+                student.setUsername(resultSet.getString(DbConstants.USERNAME));
+                student.setStream(resultSet.getString(DbConstants.STREAM));
+                student.setStatus(resultSet.getString(DbConstants.USER_STATUS));
+                student.setCreatedTs(resultSet.getTimestamp(DbConstants.USER_CREATED_TS));
+                studentList.add(student);
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
     }
 }

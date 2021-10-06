@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
@@ -56,25 +58,26 @@ public class PredictionPage {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 1000, 750);
+        frame.setBounds(100, 100, 1100, 750);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setVisible(true);
         frame.getContentPane().setLayout(null);
         frame.setResizable(false);
 
         JPanel panel = new JPanel();
-        panel.setBounds(0, 0, 1000, 750);
+        panel.setBounds(0, 0, 1100, 750);
         frame.getContentPane().add(panel, BorderLayout.NORTH);
         panel.setLayout(null);
 
         JPanel panel_1 = new JPanel();
-        panel_1.setBounds(0, 0, 1000, 750);
+        panel_1.setBounds(0, 0, 1100, 750);
         panel.add(panel_1);
         panel_1.setLayout(null);
 
         model = new DefaultTableModel();
         model.addColumn("Course Unit");
         model.addColumn("Course Name");
+        model.addColumn("Credits");
         model.addColumn("First Class");
         model.addColumn("Second Upper Class");
         model.addColumn("Second Lower Class");
@@ -89,19 +92,48 @@ public class PredictionPage {
         semesterNumberLabel.setBackground(new Color(255, 255, 255));
         panel_1.add(semesterNumberLabel);
 
+        JButton homeBtn = new JButton("Home Page");
+        homeBtn.setForeground(Color.BLACK);
+        homeBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+        homeBtn.setBackground(new Color(239, 199, 68));
+        homeBtn.setBounds(450, 650, 150, 30);
+        panel_1.add(homeBtn);
+        homeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new HomePage(userId);
+                frame.dispose();
+            }
+        });
+
+        JButton backBtn = new JButton("Back");
+        backBtn.setForeground(Color.BLACK);
+        backBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+        backBtn.setBackground(new Color(239, 108, 68));
+        backBtn.setBounds(250, 650, 100, 30);
+        panel_1.add(backBtn);
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new AddSubjectsForNextSem(userId);
+                frame.dispose();
+            }
+        });
+
         JPanel panelForTable = new JPanel();
         panelForTable.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Courses with Predict Results", TitledBorder.CENTER, TitledBorder.TOP));
-        panelForTable.setBounds(50, 100, 900, 500);
+        panelForTable.setBounds(10, 100, 1050, 500);
 
         table = new JTable(model);
         TableColumnModel columnModel = table.getColumnModel();
         table.setRowHeight(30);
         columnModel.getColumn(0).setPreferredWidth(200);
         columnModel.getColumn(1).setPreferredWidth(400);
-        columnModel.getColumn(2).setPreferredWidth(200);
-        columnModel.getColumn(3).setPreferredWidth(200);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(150);
         columnModel.getColumn(4).setPreferredWidth(200);
         columnModel.getColumn(5).setPreferredWidth(200);
+        columnModel.getColumn(6).setPreferredWidth(250);
 
         JTableHeader header = table.getTableHeader();
         header.setPreferredSize(new Dimension(100, 50));
@@ -113,7 +145,8 @@ public class PredictionPage {
         table.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
         table.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
         table.getColumnModel().getColumn(5).setCellRenderer( centerRenderer );
-        table.setSize(800, 500);
+        table.getColumnModel().getColumn(6).setCellRenderer( centerRenderer );
+        table.setSize(1050, 500);
         table.setPreferredScrollableViewportSize(table.getSize());
         table.setFillsViewportHeight(true);
         panelForTable.add(new JScrollPane(table));
@@ -122,7 +155,7 @@ public class PredictionPage {
         JLabel rightSideBackground = new JLabel("");
         rightSideBackground.setIcon(new ImageIcon("src/main/java/com/TeamPhoenix/gpaCalculator/service/imgs/right_side_signup_page.jpg"));
         rightSideBackground.setHorizontalAlignment(SwingConstants.CENTER);
-        rightSideBackground.setBounds(0, 0, 1000, 750);
+        rightSideBackground.setBounds(0, 0, 1200, 750);
         panel_1.add(rightSideBackground);
     }
 
@@ -298,7 +331,7 @@ public class PredictionPage {
                                 }
                             }
                         }
-                        model.addRow(new Object[]{subjectCode, subjectName, firstClassResultGrade, secondUpperClassResultGrade,
+                        model.addRow(new Object[]{subjectCode, subjectName, subjectCredit, firstClassResultGrade, secondUpperClassResultGrade,
                             secondLowerClassResultGrade, generalBelowClassResultGrade});
                     }
                 }
