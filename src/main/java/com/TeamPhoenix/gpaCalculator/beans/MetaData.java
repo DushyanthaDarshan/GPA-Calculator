@@ -3,9 +3,12 @@ package com.TeamPhoenix.gpaCalculator.beans;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.sql.Timestamp;
+
 public class MetaData {
 
     private String status;
+    private Timestamp createdTs;
 
     public String getStatus() {
         return status;
@@ -13,6 +16,14 @@ public class MetaData {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Timestamp getCreatedTs() {
+        return createdTs;
+    }
+
+    public void setCreatedTs(Timestamp createdTs) {
+        this.createdTs = createdTs;
     }
 
     @Override
@@ -23,11 +34,19 @@ public class MetaData {
 
         MetaData metaData = (MetaData) o;
 
-        return new EqualsBuilder().append(status, metaData.status).isEquals();
+        return new EqualsBuilder().append(status, metaData.status).append(createdTs, metaData.createdTs).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(status).toHashCode();
+        return new HashCodeBuilder(17, 37).append(status).append(createdTs).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "MetaData{" +
+                "status='" + status + '\'' +
+                ", createdTs=" + createdTs +
+                '}';
     }
 }

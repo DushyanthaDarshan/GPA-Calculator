@@ -9,13 +9,9 @@ public class User extends MetaData implements Serializable {
 
     private Long userId;
     private String username;
-    private String indexNumber;
     private String name;
     private String password;
-    private String batch;
-    private String stream;
-    private String combination;
-    private String degree;
+    private String userType;
 
     public Long getUserId() {
         return userId;
@@ -31,14 +27,6 @@ public class User extends MetaData implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getIndexNumber() {
-        return indexNumber;
-    }
-
-    public void setIndexNumber(String indexNumber) {
-        this.indexNumber = indexNumber;
     }
 
     public String getName() {
@@ -57,36 +45,12 @@ public class User extends MetaData implements Serializable {
         this.password = password;
     }
 
-    public String getBatch() {
-        return batch;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setBatch(String batch) {
-        this.batch = batch;
-    }
-
-    public String getStream() {
-        return stream;
-    }
-
-    public void setStream(String stream) {
-        this.stream = stream;
-    }
-
-    public String getCombination() {
-        return combination;
-    }
-
-    public void setCombination(String combination) {
-        this.combination = combination;
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     @Override
@@ -97,12 +61,12 @@ public class User extends MetaData implements Serializable {
 
         User user = (User) o;
 
-        return new EqualsBuilder().appendSuper(super.equals(o)).append(userId, user.userId).append(username, user.username).append(indexNumber, user.indexNumber).append(name, user.name).append(password, user.password).append(batch, user.batch).append(stream, user.stream).append(combination, user.combination).append(degree, user.degree).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(userId, user.userId).append(username, user.username).append(name, user.name).append(password, user.password).append(userType, user.userType).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(userId).append(username).append(indexNumber).append(name).append(password).append(batch).append(stream).append(combination).append(degree).toHashCode();
+        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(userId).append(username).append(name).append(password).append(userType).toHashCode();
     }
 
     @Override
@@ -110,13 +74,9 @@ public class User extends MetaData implements Serializable {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
-                ", indexNumber='" + indexNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", batch='" + batch + '\'' +
-                ", stream='" + stream + '\'' +
-                ", combination='" + combination + '\'' +
-                ", degree='" + degree + '\'' +
+                ", userType='" + userType + '\'' +
                 "} " + super.toString();
     }
 }

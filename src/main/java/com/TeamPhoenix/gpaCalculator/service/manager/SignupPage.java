@@ -1,8 +1,8 @@
 package com.TeamPhoenix.gpaCalculator.service.manager;
 
-import com.TeamPhoenix.gpaCalculator.beans.User;
-import com.TeamPhoenix.gpaCalculator.service.dao.GpaDao;
-import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaDaoImpl;
+import com.TeamPhoenix.gpaCalculator.beans.Student;
+import com.TeamPhoenix.gpaCalculator.service.dao.GpaCalDao;
+import com.TeamPhoenix.gpaCalculator.service.dao.Impl.GpaCalDaoImpl;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
@@ -185,11 +185,9 @@ public class SignupPage {
         batchSelectRegister.setBounds(535, 204, 400, 19);
         batchSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         batchSelectRegister.setForeground(new Color(255, 255, 255));
-//        batchTextFieldRegister.setCaretColor(new Color(255, 255, 255));
         batchSelectRegister.setBackground(new Color(1, 47, 142));
         batchSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(batchSelectRegister);
-//        batchTextFieldRegister.setColumns(10);
 
         batchRegisterError = new JLabel("");
         batchRegisterError.setBounds(420, 234, 500, 15);
@@ -213,11 +211,9 @@ public class SignupPage {
         streamSelectRegister.setBounds(535, 251, 400, 19);
         streamSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         streamSelectRegister.setForeground(new Color(255, 255, 255));
-//        streamTextFieldRegister.setCaretColor(new Color(255, 255, 255));
         streamSelectRegister.setBackground(new Color(1, 47, 142));
         streamSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(streamSelectRegister);
-//        streamTextFieldRegister.setColumns(10);
 
         streamRegisterError = new JLabel("");
         streamRegisterError.setBounds(420, 281, 500, 15);
@@ -241,11 +237,9 @@ public class SignupPage {
         combinationSelectRegister.setBounds(535, 298, 400, 19);
         combinationSelectRegister.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
         combinationSelectRegister.setForeground(new Color(255, 255, 255));
-//        combinationSelectRegister.setCaretColor(new Color(255, 255, 255));
         combinationSelectRegister.setBackground(new Color(1, 47, 142));
         combinationSelectRegister.setFont(new Font("Dialog", Font.PLAIN, 14));
         panel_1.add(combinationSelectRegister);
-//        combinationSelectRegister.setColumns(10);
 
         combinationRegisterError = new JLabel("");
         combinationRegisterError.setBounds(420, 328, 500, 15);
@@ -432,7 +426,7 @@ public class SignupPage {
         userRegisterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GpaDao gpaDao = new GpaDaoImpl();
+                GpaCalDao gpaDao = new GpaCalDaoImpl();
 
                 String name = nameTextFieldRegister.getText();
                 String username = usernameTextFieldRegister.getText();
@@ -445,28 +439,28 @@ public class SignupPage {
                 String confirmPw = confirmPasswordTextFieldRegister.getText();
 
                 Color redColor = new Color(255, 0, 0);
-                User user = new User();
-                user.setName(name);
-                user.setIndexNumber(indexNumber);
-                user.setUsername(username);
-                user.setCombination(combination);
-                user.setPassword(pw);
-                user.setDegree(degree);
-                user.setStream(stream);
-                user.setBatch(batch);
-                user.setStatus("ACTIVE");
+                Student student = new Student();
+                student.setName(name);
+                student.setIndexNumber(indexNumber);
+                student.setUsername(username);
+                student.setCombination(combination);
+                student.setPassword(pw);
+                student.setDegree(degree);
+                student.setStream(stream);
+                student.setBatch(batch);
+                student.setStatus("ACTIVE");
 
                 clearErrorsInErrorFields();
-                boolean status = validateInputs(user, gpaDao, confirmPw, redColor);
+                boolean status = validateInputs(student, gpaDao, confirmPw, redColor);
                 if (status) {
-                    gpaDao.saveUserDetails(user);
-                    User savedUser = gpaDao.getUserDetailsByUsername(username);
-                    if (savedUser != null) {
+                    gpaDao.saveUserDetails(student);
+                    Student savedStudent = gpaDao.getUserDetailsByUsername(username);
+                    if (savedStudent != null) {
                         clearTextFields();
                         JOptionPane.showMessageDialog(frame, "Successfully registered", "Success", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("Successfully registered");
                         frame.dispose();
-                        //TODO - connect home page
+                        new HomePage(student.getUserId());
                     }
                 }
             }
@@ -477,7 +471,8 @@ public class SignupPage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TODO - connect login page
+                frame.dispose();
+                new LoginPage();
             }
         });
     }
@@ -506,103 +501,103 @@ public class SignupPage {
         confirmPasswordTextFieldRegister.setText("");
     }
 
-    private boolean validateInputs(User user, GpaDao gpaDao, String confirmPw, Color redColor) {
+    private boolean validateInputs(Student student, GpaCalDao gpaDao, String confirmPw, Color redColor) {
         boolean isValidInputs = true;
-        if (StringUtils.isBlank(user.getName())) {
+        if (StringUtils.isBlank(student.getName())) {
             nameRegisterError.setText("Name should not be empty");
             nameRegisterError.setForeground(redColor);
             nameRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (user.getName().length() > 500) {
+        if (student.getName().length() > 500) {
             nameRegisterError.setText("Name length should not be more than 500 characters");
             nameRegisterError.setForeground(redColor);
             nameRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isBlank(user.getUsername())) {
+        if (StringUtils.isBlank(student.getUsername())) {
             usernameRegisterError.setText("Username should not be empty");
             usernameRegisterError.setForeground(redColor);
             usernameRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (user.getUsername().length() > 100) {
+        if (student.getUsername().length() > 100) {
             usernameRegisterError.setText("Username length should not be more than 100 characters");
             usernameRegisterError.setForeground(redColor);
             usernameRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isNotBlank(user.getUsername())) {
-            User userFromDb = gpaDao.getUserDetailsByUsername(user.getUsername());
-            if (userFromDb != null) {
+        if (StringUtils.isNotBlank(student.getUsername())) {
+            Student studentFromDb = gpaDao.getUserDetailsByUsername(student.getUsername());
+            if (studentFromDb != null) {
                 usernameRegisterError.setText("Provided username is already registered. Please try using another username");
                 usernameRegisterError.setForeground(redColor);
                 usernameRegisterError.setVisible(true);
                 isValidInputs = false;
             }
         }
-        if (StringUtils.isBlank(user.getIndexNumber())) {
+        if (StringUtils.isBlank(student.getIndexNumber())) {
             indexNumberRegisterError.setText("Index number should not be empty");
             indexNumberRegisterError.setForeground(redColor);
             indexNumberRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (user.getIndexNumber().length() > 100) {
+        if (student.getIndexNumber().length() > 100) {
             indexNumberRegisterError.setText("Index number length should not be more than 15 characters");
             indexNumberRegisterError.setForeground(redColor);
             indexNumberRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isNotBlank(user.getIndexNumber())) {
-            User userFromDb = gpaDao.getUserDetailsByIndexNumber(user.getIndexNumber());
-            if (userFromDb != null) {
+        if (StringUtils.isNotBlank(student.getIndexNumber())) {
+            Student studentFromDb = gpaDao.getUserDetailsByIndexNumber(student.getIndexNumber());
+            if (studentFromDb != null) {
                 indexNumberRegisterError.setText("Provided index number is already registered. Please check");
                 indexNumberRegisterError.setForeground(redColor);
                 indexNumberRegisterError.setVisible(true);
                 isValidInputs = false;
             }
         }
-        if (StringUtils.isBlank(user.getBatch())) {
+        if (StringUtils.isBlank(student.getBatch())) {
             batchRegisterError.setText("Batch should not be empty");
             batchRegisterError.setForeground(redColor);
             batchRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (user.getBatch().length() > 45) {
+        if (student.getBatch().length() > 45) {
             batchRegisterError.setText("Batch length should not be more than 45 characters");
             batchRegisterError.setForeground(redColor);
             batchRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isBlank(user.getStream())) {
+        if (StringUtils.isBlank(student.getStream())) {
             streamRegisterError.setText("Stream should not be empty");
             streamRegisterError.setForeground(redColor);
             streamRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (user.getStream().length() > 500) {
+        if (student.getStream().length() > 500) {
             streamRegisterError.setText("Stream length should not be more than 100 characters");
             streamRegisterError.setForeground(redColor);
             streamRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isNotBlank(user.getCombination())) {
-            if (user.getCombination().length() > 45) {
+        if (StringUtils.isNotBlank(student.getCombination())) {
+            if (student.getCombination().length() > 45) {
                 combinationRegisterError.setText("Combination length should not be more than 100 characters");
                 combinationRegisterError.setForeground(redColor);
                 combinationRegisterError.setVisible(true);
                 isValidInputs = false;
             }
         }
-        if (StringUtils.isNotBlank(user.getDegree())) {
-            if (user.getDegree().length() > 45) {
+        if (StringUtils.isNotBlank(student.getDegree())) {
+            if (student.getDegree().length() > 45) {
                 degreeRegisterError.setText("Degree length should not be more than 250 characters");
                 degreeRegisterError.setForeground(redColor);
                 degreeRegisterError.setVisible(true);
                 isValidInputs = false;
             }
         }
-        if (StringUtils.isBlank(user.getPassword())) {
+        if (StringUtils.isBlank(student.getPassword())) {
             passwordRegisterError.setText("Password should not be empty");
             passwordRegisterError.setForeground(redColor);
             passwordRegisterError.setVisible(true);
@@ -614,8 +609,8 @@ public class SignupPage {
             confirmPasswordRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isNotBlank(user.getPassword()) && StringUtils.isNotBlank(confirmPw)) {
-            if (!user.getPassword().equals(confirmPw)) {
+        if (StringUtils.isNotBlank(student.getPassword()) && StringUtils.isNotBlank(confirmPw)) {
+            if (!student.getPassword().equals(confirmPw)) {
                 passwordRegisterError.setText("Passwords should be matched");
                 passwordRegisterError.setForeground(redColor);
                 passwordRegisterError.setVisible(true);
