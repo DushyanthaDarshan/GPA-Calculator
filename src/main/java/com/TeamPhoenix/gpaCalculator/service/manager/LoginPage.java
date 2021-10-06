@@ -126,7 +126,7 @@ public class LoginPage{
         panel_1.add(dontHaveAnAccountPart1);
 
         JLabel dontHaveAnAccountPart2 = new JLabel("Sign Up Now ");
-        dontHaveAnAccountPart2.setBounds(710, 500, 300, 20);
+        dontHaveAnAccountPart2.setBounds(720, 500, 300, 20);
         dontHaveAnAccountPart2.setForeground(new Color(255, 255, 255));
         dontHaveAnAccountPart2.setBackground(new Color(255, 255, 255));
         dontHaveAnAccountPart2.setFont(new Font("Arial", Font.BOLD, 16));

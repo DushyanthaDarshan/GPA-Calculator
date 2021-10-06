@@ -227,6 +227,34 @@ public class SemesterGpa {
 		});
 		frame.getContentPane().add(btnDelete);
 
+		JButton homeBtn = new JButton("Home Page");
+		homeBtn.setForeground(Color.BLACK);
+		homeBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		homeBtn.setBackground(new Color(239, 199, 68));
+		homeBtn.setBounds(250, 650, 150, 30);
+		frame.getContentPane().add(homeBtn);
+		homeBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				new HomePage(userId);
+				frame.dispose();
+			}
+		});
+
+		JButton backBtn = new JButton("Next");
+		backBtn.setForeground(Color.BLACK);
+		backBtn.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		backBtn.setBackground(new Color(239, 108, 68));
+		backBtn.setBounds(630, 650, 100, 30);
+		frame.getContentPane().add(backBtn);
+		backBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				new SemesterGpa(userId, semNumber + 1);
+				frame.dispose();
+			}
+		});
+
 		JPanel panel = new JPanel();
 		//panel.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Courses with Results", TitledBorder.CENTER, TitledBorder.TOP));
 		panel.setBounds(240, 230, 500, 400);

@@ -360,7 +360,7 @@ public class SignupPage {
         panel_1.add(alreadyHaveAnAccountPart1);
 
         JLabel alreadyHaveAnAccountPart2 = new JLabel("Sign in ");
-        alreadyHaveAnAccountPart2.setBounds(740, 615, 110, 20);
+        alreadyHaveAnAccountPart2.setBounds(750, 615, 110, 20);
         alreadyHaveAnAccountPart2.setForeground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart2.setBackground(new Color(255, 255, 255));
         alreadyHaveAnAccountPart2.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -384,7 +384,9 @@ public class SignupPage {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (actionEvent.getSource() == streamSelectRegister) {
                     if (!Objects.equals(streamSelectRegister.getSelectedItem(), "Physical Science")) {
-                        streamRegisterError.setBounds(420, 281, 500, 15);
+                        streamLabelRegister.setBounds(420, 320, 500, 15);
+                        streamSelectRegister.setBounds(535, 320, 400, 19);
+                        streamRegisterError.setBounds(420, 350, 500, 15);
 
                         combinationLabelRegister.setBounds(52, 52, 110, 15);
                         combinationLabelRegister.setVisible(false);
@@ -393,46 +395,48 @@ public class SignupPage {
                         combinationRegisterError.setBounds(52, 52, 500, 15);
                         combinationRegisterError.setVisible(false);
 
-                        degreeLabelRegister.setBounds(420, 298, 110, 15);
-                        degreeSelectRegister.setBounds(535, 298, 400, 19);
-                        degreeRegisterError.setBounds(420, 328, 500, 15);
+                        degreeLabelRegister.setBounds(420, 370, 110, 15);
+                        degreeSelectRegister.setBounds(535, 370, 400, 19);
+                        degreeRegisterError.setBounds(420, 400, 500, 15);
 
-                        passwordLabelRegister.setBounds(420, 342, 110, 15);
-                        passwordTextFieldRegister.setBounds(535, 342, 400, 19);
-                        passwordRegisterError.setBounds(420, 372, 500, 15);
+                        passwordLabelRegister.setBounds(420, 420, 110, 15);
+                        passwordTextFieldRegister.setBounds(535, 420, 400, 19);
+                        passwordRegisterError.setBounds(420, 450, 500, 15);
 
-                        confirmPasswordLabelRegister.setBounds(420, 389, 110, 15);
-                        confirmPasswordTextFieldRegister.setBounds(535, 389, 400, 19);
-                        confirmPasswordRegisterError.setBounds(420, 419, 500, 15);
+                        confirmPasswordLabelRegister.setBounds(420, 470, 110, 15);
+                        confirmPasswordTextFieldRegister.setBounds(535, 470, 400, 19);
+                        confirmPasswordRegisterError.setBounds(420, 500, 500, 15);
 
-                        userRegisterButton.setBounds(630, 436, 117, 30);
-                        alreadyHaveAnAccountPart1.setBounds(540, 486, 200, 15);
-                        alreadyHaveAnAccountPart2.setBounds(740, 486, 110, 20);
+                        userRegisterButton.setBounds(630, 520, 117, 30);
+                        alreadyHaveAnAccountPart1.setBounds(540, 570, 200, 15);
+                        alreadyHaveAnAccountPart2.setBounds(740, 568, 110, 20);
                     } else {
-                        streamRegisterError.setBounds(420, 281, 500, 15);
+                        streamLabelRegister.setBounds(420, 320, 500, 15);
+                        streamSelectRegister.setBounds(535, 320, 400, 19);
+                        streamRegisterError.setBounds(420, 350, 500, 15);
 
-                        combinationLabelRegister.setBounds(420, 298, 110, 15);
+                        combinationLabelRegister.setBounds(420, 370, 110, 15);
                         combinationLabelRegister.setVisible(true);
-                        combinationSelectRegister.setBounds(535, 298, 400, 19);
+                        combinationSelectRegister.setBounds(535, 370, 400, 19);
                         combinationSelectRegister.setVisible(true);
-                        combinationRegisterError.setBounds(420, 328, 500, 15);
+                        combinationRegisterError.setBounds(420, 400, 500, 15);
                         combinationRegisterError.setVisible(true);
 
-                        degreeLabelRegister.setBounds(420, 345, 110, 15);
-                        degreeSelectRegister.setBounds(535, 345, 400, 19);
-                        degreeRegisterError.setBounds(420, 375, 500, 15);
+                        degreeLabelRegister.setBounds(420, 420, 110, 15);
+                        degreeSelectRegister.setBounds(535, 420, 400, 19);
+                        degreeRegisterError.setBounds(420, 450, 500, 15);
 
-                        passwordLabelRegister.setBounds(420, 392, 110, 15);
-                        passwordTextFieldRegister.setBounds(535, 392, 400, 19);
-                        passwordRegisterError.setBounds(420, 422, 500, 15);
+                        passwordLabelRegister.setBounds(420, 470, 110, 15);
+                        passwordTextFieldRegister.setBounds(535, 470, 400, 19);
+                        passwordRegisterError.setBounds(420, 500, 500, 15);
 
-                        confirmPasswordLabelRegister.setBounds(420, 439, 110, 15);
-                        confirmPasswordTextFieldRegister.setBounds(535, 439, 400, 19);
-                        confirmPasswordRegisterError.setBounds(420, 469, 500, 15);
+                        confirmPasswordLabelRegister.setBounds(420, 520, 110, 15);
+                        confirmPasswordTextFieldRegister.setBounds(535, 520, 400, 19);
+                        confirmPasswordRegisterError.setBounds(420, 550, 500, 15);
 
-                        userRegisterButton.setBounds(630, 509, 117, 30);
-                        alreadyHaveAnAccountPart1.setBounds(540, 559, 200, 15);
-                        alreadyHaveAnAccountPart2.setBounds(740, 559, 110, 20);
+                        userRegisterButton.setBounds(630, 570, 117, 30);
+                        alreadyHaveAnAccountPart1.setBounds(540, 620, 200, 15);
+                        alreadyHaveAnAccountPart2.setBounds(740, 618, 110, 20);
                     }
                 }
             }
@@ -457,6 +461,7 @@ public class SignupPage {
                 Student student = new Student();
                 student.setName(name);
                 student.setIndexNumber(indexNumber);
+                student.setUserType("STUDENT");
                 student.setUsername(username);
                 student.setCombination(combination);
                 student.setPassword(pw);
@@ -475,7 +480,7 @@ public class SignupPage {
                         JOptionPane.showMessageDialog(frame, "Successfully registered", "Success", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("Successfully registered");
                         frame.dispose();
-                        new HomePage(student.getUserId());
+                        new HomePage(savedStudent.getUserId());
                     }
                 }
             }

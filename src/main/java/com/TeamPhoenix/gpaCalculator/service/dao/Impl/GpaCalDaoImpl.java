@@ -89,9 +89,9 @@ public class GpaCalDaoImpl extends CommonDb implements GpaCalDao {
     @Override
     public void saveUserDetails(Student student) {
         String query = "INSERT INTO USER (NAME, INDEX_NUMBER, BATCH, PASSWORD, USERNAME, STREAM, COMBINATION, DEGREE, " +
-                "USER_STATUS, USER_CREATED_TS) VALUES ('" + student.getName() + "', '" + student.getIndexNumber() + "', '" +
+                "USER_STATUS, USER_TYPE) VALUES ('" + student.getName() + "', '" + student.getIndexNumber() + "', '" +
                 student.getBatch() + "', '" + student.getPassword() + "', '" + student.getUsername() + "', '" + student.getStream() +
-                "', '" + student.getCombination() + "', '" + student.getDegree() + "', '" + student.getStatus() + "', '" + student.getCreatedTs() + "')";
+                "', '" + student.getCombination() + "', '" + student.getDegree() + "', '" + student.getStatus() + "', '" + student.getUserType() + "')";
         System.out.println(query);
         commonDb.saveDataToDb(query);
     }
