@@ -227,7 +227,6 @@ public class AdminMyAccount {
             public void actionPerformed(ActionEvent actionEvent) {
                 Student userFromDb = gpaCalDao.getUserDetailsByUserId(userId);
 
-                nameTextFieldRegister.setText(userFromDb.getName());
 
                 String name = nameTextFieldRegister.getText();
                 String oldPw = oldPwTextField.getText();
@@ -236,6 +235,7 @@ public class AdminMyAccount {
 
                 Color redColor = new Color(255, 0, 0);
                 Student student = new Student();
+                student.setUserId(userFromDb.getUserId());
                 student.setName(name);
                 student.setPassword(newPw);
                 student.setStatus("ACTIVE");
@@ -243,6 +243,12 @@ public class AdminMyAccount {
                 clearErrorsInErrorFields();
                 boolean status = validateInputs(student, confirmPw, userFromDb.getPassword(), oldPw, redColor);
                 if (status) {
+                    if (StringUtils.isBlank(newPw)) {
+                        student.setPassword(userFromDb.getPassword());
+                    }
+                    if (StringUtils.isBlank(name)) {
+                        student.setName(userFromDb.getName());
+                    }
                     gpaCalDao.updateUser(student);
                     Student updatedUserFromDb = gpaCalDao.getUserDetailsByUserId(userId);
                     if (updatedUserFromDb.getName().equals(name) || updatedUserFromDb.getPassword().equals(newPw)) {
@@ -282,30 +288,32 @@ public class AdminMyAccount {
             nameRegisterError.setVisible(true);
             isValidInputs = false;
         }
-        if (StringUtils.isBlank(student.getPassword())) {
-            passwordRegisterError.setText("Password should not be empty");
-            passwordRegisterError.setForeground(redColor);
-            passwordRegisterError.setVisible(true);
-            isValidInputs = false;
-        }
-        if (StringUtils.isBlank(confirmPw)) {
-            confirmPasswordRegisterError.setText("Confirm password should not be empty");
-            confirmPasswordRegisterError.setForeground(redColor);
-            confirmPasswordRegisterError.setVisible(true);
-            isValidInputs = false;
-        }
-        if (pwFromDb.equals(oldPw)) {
-            oldPwError.setText("Old password should be matched");
-            oldPwError.setForeground(redColor);
-            oldPwError.setVisible(true);
-            isValidInputs = false;
-        }
-        if (StringUtils.isNotBlank(student.getPassword()) && StringUtils.isNotBlank(confirmPw)) {
-            if (!student.getPassword().equals(confirmPw)) {
-                passwordRegisterError.setText("Passwords should be matched");
+        if (StringUtils.isNotEmpty(oldPw)) {
+            if (StringUtils.isBlank(student.getPassword())) {
+                passwordRegisterError.setText("Password should not be empty");
                 passwordRegisterError.setForeground(redColor);
                 passwordRegisterError.setVisible(true);
                 isValidInputs = false;
+            }
+            if (StringUtils.isBlank(confirmPw)) {
+                confirmPasswordRegisterError.setText("Confirm password should not be empty");
+                confirmPasswordRegisterError.setForeground(redColor);
+                confirmPasswordRegisterError.setVisible(true);
+                isValidInputs = false;
+            }
+            if (pwFromDb.equals(oldPw)) {
+                oldPwError.setText("Old password should be matched");
+                oldPwError.setForeground(redColor);
+                oldPwError.setVisible(true);
+                isValidInputs = false;
+            }
+            if (StringUtils.isNotBlank(student.getPassword()) && StringUtils.isNotBlank(confirmPw)) {
+                if (!student.getPassword().equals(confirmPw)) {
+                    passwordRegisterError.setText("Passwords should be matched");
+                    passwordRegisterError.setForeground(redColor);
+                    passwordRegisterError.setVisible(true);
+                    isValidInputs = false;
+                }
             }
         }
         return isValidInputs;
